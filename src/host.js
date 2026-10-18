@@ -248,6 +248,18 @@ async function rewriteRegion(rows) {
 // 服务器模型与校验
 // ---------------------------------------------------------------------------
 
+// Windows 上 npx / uvx / npm 之类只是 .cmd 包装，Node 直接 spawn("npx") 会 ENOENT，
+// 必须经 cmd /c 转一手。实测：spawnSync("npx") → err.code === "ENOENT"。
+const CMD_SHIMS = new Set(["npx", "uvx", "npm", "pnpm", "yarn", "bunx"]);
+
+function adaptCommandForPlatform(command, args) {
+  if (process.platform !== "win32") return { command, args };
+  const bare = command.replace(/\\/g, "/").split("/").pop().toLowerCase();
+  if (bare.endsWith(".exe") || bare.endsWith(".cmd") || bare.endsWith(".bat")) return { command, args };
+  if (!CMD_SHIMS.has(bare)) return { command, args };
+  return { command: "cmd", args: ["/c", command, ...args] };
+}
+
 function normalizeServer(raw) {
   const serverName = typeof raw.serverName === "string" ? raw.serverName.trim() : "";
   const transport = raw.transport === "stdio" ? "stdio" : "streamable-http";
@@ -262,8 +274,9 @@ function normalizeServer(raw) {
   if (transport === "stdio") {
     if (typeof raw.command !== "string" || raw.command.trim() === "")
       throw new Error("stdio 服务器必须提供 command");
-    row.config.command = raw.command.trim();
-    if (Array.isArray(raw.args)) row.config.args = raw.args.map(String);
+    const cmd = adaptCommandForPlatform(raw.command.trim(), Array.isArray(raw.args) ? raw.args.map(String) : []);
+    row.config.command = cmd.command;
+    if (cmd.args.length > 0) row.config.args = cmd.args;
     const env = {};
     if (raw.env && typeof raw.env === "object") {
       for (const [k, v] of Object.entries(raw.env)) if (v !== undefined) env[k] = String(v);

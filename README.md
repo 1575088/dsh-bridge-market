@@ -157,6 +157,9 @@ plugin_manager  action: install_bundle  target: <本目录的绝对路径>
 **接入后「工具 N」一直是 0？**
 MCP 握手是异步的，等 5–10 秒。仍是 0 就查：key 是否正确、端点域名是否可达、是否要求 OAuth。
 
+**Windows 上 stdio 应用为什么起不来？**
+Windows 里 `npx`、`uvx` 这类命令只是 `.cmd` 包装，进程直接按名字启动会失败（实测 `spawnSync("npx")` 报 `ENOENT`）。本插件写配置时会自动改写成 `cmd /c npx ...`，所以面板里接入的都能跑；你自己手写配置或粘贴别人的 JSON 时，要自己补这层包装。
+
 **显示已接入，但 agent 不会用？**
 先确认「工具 N」> 0。装了新版本没重启 DSH 的话，面板和 `bridge_market` 工具都不会出现。
 

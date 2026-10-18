@@ -137,3 +137,18 @@ test("托管区域外的 mcp 行以只读外部配置呈现", async () => {
   assert.equal(state.servers[0].managed, false);
   assert.equal(state.servers[0].serverName, "external");
 });
+
+test("Windows 上 npx 类命令自动转成 cmd /c 包装", async (t) => {
+  if (process.platform !== "win32") return t.skip("仅 Windows 需要这层包装");
+  await upsertServer({
+    serverName: "shim-test",
+    transport: "stdio",
+    command: "npx",
+    args: ["-y", "some-mcp-server"],
+  });
+  const state = await readState();
+  const file = await readFile(state.patchPath, "utf8");
+  assert.match(file, /command: cmd/);
+  assert.match(file, /- \/c/);
+  assert.match(file, /some-mcp-server/);
+});
