@@ -124,6 +124,69 @@ const STYLE = `
   border:1px solid var(--dsw-alias-line,#e7e8ea);border-radius:8px;background:transparent;
   color:var(--dsw-alias-label-secondary,#8a8f9c);cursor:pointer;padding:0}
 .mm-head-btn:hover{color:var(--dsw-alias-brand,#4c6ef5);border-color:var(--dsw-alias-brand,#4c6ef5);background:var(--dsw-alias-bg-fill-2,#eef2ff)}
+/* ---- 市场式界面 ---- */
+.mm-tabs{display:flex;gap:4px;padding:0 16px;background:var(--dsw-alias-bg-base,#fff);border-bottom:1px solid var(--dsw-alias-line,#e7e8ea)}
+.mm-tab{position:relative;border:none;background:transparent;color:var(--dsw-alias-label-secondary,#8a8f9c);
+  padding:10px 12px 11px;font-size:13px;font-weight:500;cursor:pointer;border-bottom:2px solid transparent;display:inline-flex;align-items:center;gap:6px}
+.mm-tab:hover{color:var(--dsw-alias-label-primary,#1c1e26)}
+.mm-tab.active{color:var(--dsw-alias-brand,#4c6ef5);border-bottom-color:var(--dsw-alias-brand,#4c6ef5)}
+.mm-tab-num{font-size:10.5px;font-weight:600;min-width:16px;height:16px;line-height:16px;text-align:center;
+  padding:0 5px;border-radius:999px;background:var(--dsw-alias-interactive-bg-hover,#eef2ff);color:var(--dsw-alias-label-secondary,#8a8f9c)}
+.mm-tab.active .mm-tab-num{background:var(--dsw-alias-brand,#4c6ef5);color:#fff}
+.mm-toolbar{display:flex;flex-direction:column;gap:10px;margin-bottom:14px}
+.mm-search{position:relative}
+.mm-search input{box-sizing:border-box;width:100%;padding:9px 12px 9px 33px;border-radius:10px;
+  border:1px solid var(--dsw-alias-line,#e7e8ea);background:var(--dsw-alias-bg-overlay,#fff);
+  color:var(--dsw-alias-label-primary,#1c1e26);font-size:13px;outline:none}
+.mm-search input::placeholder{color:var(--dsw-alias-label-secondary,#8a8f9c)}
+.mm-search input:focus{border-color:var(--dsw-alias-brand,#4c6ef5);box-shadow:0 0 0 3px #4c6ef51f}
+.mm-search svg{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:var(--dsw-alias-label-secondary,#8a8f9c)}
+.mm-chips{display:flex;flex-wrap:wrap;gap:6px}
+.mm-chip{border:1px solid var(--dsw-alias-line,#e7e8ea);background:transparent;color:var(--dsw-alias-label-secondary,#8a8f9c);
+  border-radius:999px;padding:4px 12px;font-size:12px;cursor:pointer}
+.mm-chip:hover{color:var(--dsw-alias-label-primary,#1c1e26);border-color:var(--dsw-alias-brand,#4c6ef5)}
+.mm-chip.active{background:var(--dsw-alias-brand,#4c6ef5);border-color:var(--dsw-alias-brand,#4c6ef5);color:#fff}
+.mm-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(228px,1fr));gap:10px}
+.mm-app{box-sizing:border-box;display:flex;flex-direction:column;gap:8px;min-height:136px;text-align:left;
+  border:1px solid var(--dsw-alias-line,#e7e8ea);border-radius:12px;background:var(--dsw-alias-bg-overlay,#fff);
+  color:var(--dsw-alias-label-primary,#1c1e26);padding:12px;cursor:pointer;transition:border-color .15s,box-shadow .15s,transform .15s}
+.mm-app:hover{border-color:var(--dsw-alias-brand,#4c6ef5);box-shadow:0 6px 20px #4c6ef51f;transform:translateY(-1px)}
+.mm-app.info{cursor:default;border-style:dashed;background:transparent}
+.mm-app.info:hover{transform:none;box-shadow:none;border-color:#ffc9a3}
+.mm-app-top{display:flex;align-items:center;gap:9px}
+.mm-app-avatar{flex:none;width:34px;height:34px;border-radius:9px;display:inline-flex;align-items:center;justify-content:center;
+  color:#fff;font-size:15px;font-weight:600}
+.mm-app-titles{min-width:0;flex:1}
+.mm-app-name{font-size:13.5px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mm-app-vendor{font-size:11.5px;color:var(--dsw-alias-label-secondary,#8a8f9c);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-top:1px}
+.mm-app-desc{font-size:11.5px;line-height:1.45;color:var(--dsw-alias-label-secondary,#8a8f9c);flex:1;
+  max-height:34px;overflow:hidden}
+.mm-app-foot{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.mm-pill{font-size:10.5px;padding:2px 8px;border-radius:999px;border:1px solid var(--dsw-alias-line,#e7e8ea);
+  color:var(--dsw-alias-label-secondary,#8a8f9c);white-space:nowrap}
+.mm-pill.free{color:#2f9e44;border-color:#b2f2bb;background:#e6fcf5}
+.mm-pill.key{color:#e8590c;border-color:#ffc9a3;background:#fff4e6}
+.mm-pill.on{color:#2f9e44;border-color:#b2f2bb;background:#e6fcf5}
+.mm-pill.dim{border-style:dashed}
+.mm-app-cta{margin-left:auto;font-size:11.5px;font-weight:600;color:var(--dsw-alias-brand,#4c6ef5)}
+.mm-app.attached{border-color:#b2f2bb}
+.mm-app.attached .mm-app-cta{color:#2f9e44}
+.mm-inst{display:flex;align-items:center;gap:10px;width:100%;box-sizing:border-box;text-align:left;cursor:pointer;
+  border:1px solid var(--dsw-alias-line,#e7e8ea);border-radius:12px;background:var(--dsw-alias-bg-overlay,#fff);
+  color:var(--dsw-alias-label-primary,#1c1e26);padding:11px 12px;margin-bottom:8px}
+.mm-inst:hover{border-color:var(--dsw-alias-brand,#4c6ef5)}
+.mm-inst .mm-inst-main{flex:1;min-width:0}
+.mm-inst .mm-inst-name{font-size:13.5px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mm-inst .mm-inst-sub{font-size:11.5px;color:var(--dsw-alias-label-secondary,#8a8f9c);margin-top:2px;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mm-inst-tools{flex:none;display:inline-flex;flex-direction:column;align-items:center;justify-content:center;
+  min-width:44px;padding:3px 8px;border-radius:9px;border:1px solid #b2f2bb;background:#e6fcf5;color:#2f9e44}
+.mm-inst-tools.zero{border-color:#ffc9a3;background:#fff4e6;color:#e8590c}
+.mm-inst-tools .n{font-size:14px;font-weight:700;line-height:1.1}
+.mm-inst-tools .t{font-size:9.5px;opacity:.85;line-height:1.2}
+.mm-empty-cta{display:flex;flex-direction:column;align-items:center;gap:10px;padding:44px 12px}
+.mm-app,.mm-inst,.mm-tab,.mm-chip{font-family:inherit;line-height:inherit}
+.mm-app:focus-visible,.mm-inst:focus-visible,.mm-chip:focus-visible,.mm-tab:focus-visible{outline:2px solid var(--dsw-alias-brand,#4c6ef5);outline-offset:2px}
 `;
 
 // ---------------------------------------------------------------------------
@@ -363,13 +426,13 @@ function stripComments(text) {
 function McpMarketPanel({ onClose }) {
   const [state, setState] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [view, setView] = useState("list"); // list | templates | configure
+  const [view, setView] = useState("market"); // market | installed | configure
   const [configure, setConfigure] = useState(null); // { title, prefill } | null
-  const [addMenuOpen, setAddMenuOpen] = useState(false);
   const [expanded, setExpanded] = useState({});
   const [busyName, setBusyName] = useState("");
   const [toast, setToast] = useState(null);
   const toastTimer = useRef(null);
+  const bodyRef = useRef(null);
 
   function showToast(message, isError = false) {
     setToast({ message, isError });
@@ -392,6 +455,11 @@ function McpMarketPanel({ onClose }) {
     refresh();
     return () => clearTimeout(toastTimer.current);
   }, []);
+
+  useEffect(() => {
+    const el = bodyRef.current;
+    if (el) el.scrollTop = 0;
+  }, [view]);
 
   const onError = (e) => showToast(e instanceof Error ? e.message : String(e), true);
 
@@ -463,7 +531,7 @@ function McpMarketPanel({ onClose }) {
     if (servers.length === 0) return "没有解析到有效的 mcpServers 配置";
     const errors = await saveServers(servers);
     await refresh();
-    setView("list");
+    setView("market");
     setConfigure(null);
     if (errors.length > 0) {
       showToast(`已保存 ${servers.length - errors.length} 台，失败：${errors.join("；")}`, true);
@@ -483,61 +551,57 @@ function McpMarketPanel({ onClose }) {
             jsx(McpIcon, { size: 17 }),
             "桥接市场",
           ]}),
-          jsx("span", { className: "mm-headSub", children: managed.length > 0 ? `${managed.length} 个服务` : "" }),
+          jsx("span", { className: "mm-headSub", children: managed.length > 0 ? `${managed.length} 个应用已接入` : "选一个应用，接入后 agent 立刻能调用" }),
           jsxs("div", { className: "mm-headActions", children: [
-            view === "list" &&
-              jsxs(Fragment, { children: [
-                jsxs("button", {
-                  className: "mm-add-btn",
-                  onClick: () => setAddMenuOpen((v) => !v),
-                  children: [jsx(PlusIcon, {}), "接入应用"],
-                }),
-                addMenuOpen &&
-                  jsxs("div", { className: "mm-menu", children: [
-                    jsxs("button", {
-                      className: "mm-menu-item",
-                      onClick: () => { setAddMenuOpen(false); setView("templates"); },
-                      children: [jsx("span", { children: "🏪" }), "桥接市场"],
-                    }),
-                    jsxs("button", {
-                      className: "mm-menu-item",
-                      onClick: () => {
-                        setAddMenuOpen(false);
-                        setConfigure({ title: "手动配置", prefill: "", backView: "list" });
-                        setView("configure");
-                      },
-                      children: [jsx("span", { children: "⌨️" }), "手动配置"],
-                    }),
-                  ]}),
-              ]}),
+            view !== "configure" &&
+              jsxs("button", {
+                className: "mm-add-btn",
+                onClick: () => {
+                  setConfigure({ title: "手动配置", prefill: "", backView: view });
+                  setView("configure");
+                },
+                title: "粘贴任意 MCP 配置 JSON",
+                children: [jsx(PlusIcon, {}), "手动配置"],
+              }),
             jsx("button", { className: "mm-close", onClick: onClose, title: "关闭", children: jsx(CloseIcon, {}) }),
           ]}),
         ]}),
+        // ---- 页签 ----
+        view !== "configure" &&
+          jsxs("div", { className: "mm-tabs", children: [
+            jsxs("button", {
+              className: "mm-tab " + (view === "market" ? "active" : ""),
+              onClick: () => setView("market"),
+              children: [
+                "发现应用",
+                jsx("span", { className: "mm-tab-num", children: (state?.templates ?? []).length }),
+              ],
+            }),
+            jsxs("button", {
+              className: "mm-tab " + (view === "installed" ? "active" : ""),
+              onClick: () => setView("installed"),
+              children: [
+                "已接入",
+                jsx("span", { className: "mm-tab-num", children: managed.length }),
+              ],
+            }),
+          ]}),
         // ---- 内容 ----
-        jsx("div", { className: "mm-body", children:
+        jsx("div", { className: "mm-body", ref: bodyRef, children:
           loading
             ? jsx("div", { className: "mm-empty", children: "加载中…" })
             : view === "configure"
               ? jsx(ConfigurePane, {
                   title: configure?.title ?? "手动配置",
                   prefill: configure?.prefill ?? "",
-                  onCancel: () => { setView(configure?.backView ?? "list"); setConfigure(null); },
+                  onCancel: () => {
+                    setView(configure?.backView ?? "market");
+                    setConfigure(null);
+                  },
                   onConfirm: confirmConfigure,
                 })
-              : view === "templates"
-                ? jsx(TemplateListPane, {
-                    templates: state?.templates ?? [],
-                    onBack: () => setView("list"),
-                    onPick: (t) => {
-                      setConfigure({
-                        title: t.title,
-                        prefill: templatePrefillJson(t),
-                        backView: "templates",
-                      });
-                      setView("configure");
-                    },
-                  })
-                : jsx(ServerListPane, {
+              : view === "installed"
+                ? jsx(ServerListPane, {
                     managed,
                     external,
                     patchPath: state?.patchPath ?? "",
@@ -546,10 +610,27 @@ function McpMarketPanel({ onClose }) {
                     busyName,
                     onToggle: toggle,
                     onEdit: (server) => {
-                      setConfigure({ title: `编辑 ${server.serverName}`, prefill: serverPrefillJson(server), backView: "list" });
+                      setConfigure({
+                        title: "编辑 " + server.serverName,
+                        prefill: serverPrefillJson(server),
+                        backView: "installed",
+                      });
                       setView("configure");
                     },
                     onDelete: remove,
+                  })
+                : jsx(MarketPane, {
+                    templates: state?.templates ?? [],
+                    servers: managed,
+                    onPick: (t) => {
+                      setConfigure({
+                        title: (t.vendor ? t.vendor + " · " : "") + (t.title ?? t.id),
+                        prefill: templatePrefillJson(t),
+                        backView: "market",
+                      });
+                      setView("configure");
+                    },
+                    onOpenInstalled: () => setView("installed"),
                   }),
         }),
         toast && jsx("div", { className: `mm-toast ${toast.isError ? "err" : ""}`, children: toast.message }),
@@ -565,36 +646,49 @@ function McpMarketPanel({ onClose }) {
 function ServerListPane({ managed, external, patchPath, expanded, setExpanded, busyName, onToggle, onEdit, onDelete }) {
   return jsxs("div", {
     children: [
-      jsx("div", { className: "mm-note", children: jsx("span", {
-        children: `配置写入 ${patchPath}，由 loader 热加载：保存/启停/删除后立即生效，无需重启 dsh web。`,
-      })}),
       managed.length === 0 &&
-        jsx("div", { className: "mm-empty", children: "还没有接入任何应用 —— 点右上角「接入应用」，从桥接市场里挑一个。" }),
+        jsxs("div", { className: "mm-empty-cta", children: [
+          jsx("span", { style: { fontSize: 30 }, children: "🧩" }),
+          jsx("div", { style: { fontSize: 13.5, fontWeight: 600 }, children: "还没有接入任何应用" }),
+          jsx("div", { className: "mm-help", style: { marginTop: 0 }, children: "到「发现应用」挑一个，接入后 agent 立刻就能调用它。" }),
+        ]}),
       managed.map((server) => {
         const open = expanded[server.serverName] === true;
+        const count = server.toolCount;
+        const initial = (server.serverName || "?").trim().charAt(0).toUpperCase();
         return jsxs(Fragment, { children: [
           jsxs("button", {
-            key: server.serverName,
-            className: `mm-server-row ${open ? "open" : ""}`,
+            className: "mm-inst",
             onClick: () => setExpanded((s) => ({ ...s, [server.serverName]: !open })),
             children: [
-              jsx(Avatar, { name: server.serverName }),
-              jsx("span", { className: "mm-name", children: server.serverName }),
-              jsx("span", { className: `mm-badge ${server.transport === "stdio" ? "stdio" : "http"}`, children: TRANSPORT_LABEL[server.transport] }),
-              server.disabled
-                ? jsx("span", { className: "mm-badge off", children: "已停用" })
-                : jsx("span", { className: "mm-badge ok", children: "已启用" }),
-              server.toolCount === null || server.toolCount === undefined
+              jsx("span", {
+                className: "mm-app-avatar",
+                style: { background: avatarColor(server.serverName) },
+                children: initial,
+              }),
+              jsxs("span", { className: "mm-inst-main", children: [
+                jsx("div", { className: "mm-inst-name", children: server.serverName }),
+                jsx("div", { className: "mm-inst-sub", children: [
+                  TRANSPORT_LABEL[server.transport] ?? server.transport,
+                  " · ",
+                  server.disabled ? "已停用" : "已启用",
+                  server.authKeys.length > 0 ? " · " + server.authKeys.length + " 个凭据" : "",
+                ].join("") }),
+              ]}),
+              count === null || count === undefined
                 ? null
-                : jsx("span", { className: "mm-badge", children: "工具 " + server.toolCount }),
+                : jsxs("span", { className: "mm-inst-tools " + (count > 0 ? "" : "zero"), children: [
+                    jsx("span", { className: "n", children: String(count) }),
+                    jsx("span", { className: "t", children: "工具" }),
+                  ]}),
               jsx("span", { className: "mm-chevron", children: jsx(ChevronIcon, {}) }),
             ],
           }),
           open &&
-            jsxs("div", { key: `${server.serverName}-detail`, className: "mm-detail", children: [
+            jsxs("div", { className: "mm-detail", children: [
               jsx("div", { className: "mm-summary", children: server.summary }),
               server.authKeys.length > 0 &&
-                jsx("div", { className: "mm-auth", children: server.authKeys.map((k) => `${k}: ${server.maskedAuth[k]}`).join("　") }),
+                jsx("div", { className: "mm-auth", children: server.authKeys.map((k) => k + ": " + server.maskedAuth[k]).join("　") }),
               jsxs("div", { className: "mm-actions", children: [
                 jsx("button", {
                   className: "mm-btn",
@@ -607,7 +701,7 @@ function ServerListPane({ managed, external, patchPath, expanded, setExpanded, b
                   className: "mm-btn danger",
                   disabled: busyName === server.serverName,
                   onClick: () => onDelete(server),
-                  children: "删除",
+                  children: "断开",
                 }),
               ]}),
               jsx("pre", {
@@ -615,50 +709,79 @@ function ServerListPane({ managed, external, patchPath, expanded, setExpanded, b
                 style: { whiteSpace: "pre-wrap", background: "var(--dsw-alias-bg-fill-1,#f6f8fa)", padding: "8px 10px", borderRadius: 8 },
                 children: JSON.stringify(server.rawConfig, null, 2),
               }),
-            ]}),
-        ]}, server.serverName);
+            ] }),
+        ] }, server.serverName);
       }),
       external.length > 0 && jsxs(Fragment, { children: [
         jsx("div", { className: "mm-section-title", children: "其他来源配置（只读，请到对应来源修改）" }),
         external.map((server) =>
           jsxs("div", {
             key: server.serverName,
-            className: "mm-server-row",
+            className: "mm-inst",
             style: { cursor: "default" },
             children: [
-              jsx(Avatar, { name: server.serverName }),
-              jsx("span", { className: "mm-name", children: server.serverName }),
-              jsx("span", { className: `mm-badge ${server.transport === "stdio" ? "stdio" : "http"}`, children: TRANSPORT_LABEL[server.transport] }),
-              server.disabled ? jsx("span", { className: "mm-badge off", children: "已停用" }) : null,
+              jsx("span", {
+                className: "mm-app-avatar",
+                style: { background: avatarColor(server.serverName) },
+                children: (server.serverName || "?").trim().charAt(0).toUpperCase(),
+              }),
+              jsxs("span", { className: "mm-inst-main", children: [
+                jsx("div", { className: "mm-inst-name", children: server.serverName }),
+                jsx("div", { className: "mm-inst-sub", children: [
+                  TRANSPORT_LABEL[server.transport] ?? server.transport,
+                  server.disabled ? " · 已停用" : "",
+                  countText(server),
+                ].join("") }),
+              ]}),
             ],
           }),
         ),
       ]}),
+      jsx("div", { className: "mm-note", style: { marginTop: 4 }, children: jsx("span", {
+        children: "配置写入 " + patchPath + "，由 loader 热加载：保存/启停/断开后立即生效，无需重启 dsh。",
+      })}),
     ],
   });
+}
+
+function countText(server) {
+  return server.toolCount === null || server.toolCount === undefined ? "" : " · " + server.toolCount + " 个工具";
 }
 
 // ---------------------------------------------------------------------------
 // 从市场添加：模板列表（点击 = 快捷方式，进入与手动配置相同的页面）
 // ---------------------------------------------------------------------------
 
-function TemplateListPane({ templates, onBack, onPick }) {
+function MarketPane({ templates, servers, onPick, onOpenInstalled }) {
   const [q, setQ] = useState("");
   const [cat, setCat] = useState("全部");
 
+  const attached = useMemo(() => {
+    const map = {};
+    for (const s of servers ?? []) map[s.serverName] = s;
+    return map;
+  }, [servers]);
+
   const categories = useMemo(() => {
-    const seen = ["全部"];
+    const seen = ["全部", "免密钥", "已接入"];
     for (const t of templates) {
       const c = t.category || "其他";
-      if (t.kind !== "info" && !seen.includes(c)) seen.push(c);
+      if (!seen.includes(c)) seen.push(c);
     }
     return seen;
   }, [templates]);
 
   const list = useMemo(() => {
     const key = q.trim().toLowerCase();
+    const isFree = (t) => t.kind !== "info" && !(t.fields ?? []).some((f) => f.required);
     return templates.filter((t) => {
-      if (cat !== "全部" && (t.category || "其他") !== cat) return false;
+      if (cat === "免密钥") {
+        if (!isFree(t)) return false;
+      } else if (cat === "已接入") {
+        if (!attached[t.serverNameDefault || t.id]) return false;
+      } else if (cat !== "全部" && (t.category || "其他") !== cat) {
+        return false;
+      }
       if (key === "") return true;
       const hay = [t.vendor, t.title, t.description, t.category]
         .concat(t.keywords ?? [])
@@ -667,65 +790,102 @@ function TemplateListPane({ templates, onBack, onPick }) {
         .toLowerCase();
       return hay.includes(key);
     });
-  }, [templates, q, cat]);
+  }, [templates, q, cat, attached]);
+
+  const free = list.filter((t) => t.kind !== "info" && !(t.fields ?? []).some((f) => f.required)).length;
+  const attachedCount = list.filter((t) => attached[t.serverNameDefault || t.id]).length;
 
   return jsxs("div", {
     children: [
-      jsx("button", { className: "mm-btn", onClick: onBack, children: "← 返回" }),
-      jsx("h3", { style: { fontSize: 15, margin: "12px 0 4px" }, children: "桥接市场 · 找应用" }),
-      jsx("p", { className: "mm-help", children:
-        "按应用找，不按包名找。选一个应用 → 把它的令牌贴进 JSON → 保存后 loader 热加载，agent 立刻多出这个应用的工具。" }),
-      jsx("input", {
-        className: "mm-btn",
-        style: { width: "100%", marginTop: 10, padding: "7px 10px", cursor: "text", fontSize: 12.5 },
-        placeholder: "搜应用 / 网站（高德、飞书、Notion…）",
-        value: q,
-        onChange: (e) => setQ(e.target.value),
-      }),
-      jsx("div", { style: { display: "flex", flexWrap: "wrap", gap: 6, marginTop: 10 }, children:
-        categories.map((c) =>
-          jsx("button", {
-            key: c,
-            className: "mm-btn",
-            onClick: () => setCat(c),
-            style: cat === c
-              ? { borderColor: "var(--dsw-alias-brand,#4c6ef5)", color: "var(--dsw-alias-brand,#4c6ef5)" }
-              : undefined,
-            children: c,
+      jsxs("div", { className: "mm-toolbar", children: [
+        jsxs("div", { className: "mm-search", children: [
+          jsx("svg", {
+            width: 14, height: 14, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor",
+            strokeWidth: 2, strokeLinecap: "round",
+            children: jsxs(Fragment, { children: [
+              jsx("circle", { cx: 11, cy: 11, r: 7 }),
+              jsx("path", { d: "M20 20l-3.6-3.6" }),
+            ] }),
           }),
-        ),
-      }),
+          jsx("input", {
+            placeholder: "搜索应用或网站：高德、飞书、Notion、GitHub…",
+            value: q,
+            onChange: (e) => setQ(e.target.value),
+          }),
+        ]}),
+        jsx("div", { className: "mm-chips", children:
+          categories.map((c) =>
+            jsx("button", {
+              key: c,
+              className: "mm-chip " + (cat === c ? "active" : "") + (c === "免密钥" || c === "已接入" ? " smart" : ""),
+              onClick: () => setCat(c),
+              children: c === "免密钥"
+                ? "免密钥 " + templates.filter((t) => t.kind !== "info" && !(t.fields ?? []).some((f) => f.required)).length
+                : c === "已接入"
+                  ? "已接入 " + templates.filter((t) => attached[t.serverNameDefault || t.id]).length
+                  : c,
+            }),
+          ),
+        }),
+      ]}),
+      list.length > 0 &&
+        jsx("div", { className: "mm-help", style: { margin: "0 0 12px" }, children:
+          list.length + " 个应用 · " + free + " 个免密钥可直接接 · " + attachedCount + " 个已接入" }),
       list.length === 0 &&
-        jsx("div", { className: "mm-empty", style: { marginTop: 12 }, children: "没有匹配的应用。换个关键词，或用「手动配置」粘贴任意 MCP JSON。" }),
-      jsx("div", { style: { marginTop: 12 }, children:
+        jsx("div", { className: "mm-empty", children: "没有匹配的应用。换个关键词，或点右上角「手动配置」粘贴任意 MCP JSON。" }),
+      jsx("div", { className: "mm-grid", children:
         list.map((t) => {
-          if (t.kind === "info") {
-            return jsxs("div", {
-              key: t.id,
-              className: "mm-tpl-row",
-              style: { cursor: "default", borderColor: "#ffc9a3", background: "#fff4e6" },
-              children: [
-                jsx("span", { className: "mm-tpl-main", children: jsxs(Fragment, { children: [
-                  jsx("div", { className: "mm-tpl-name", children: `${t.vendor} · ${t.title}` }),
-                  jsx("div", { className: "mm-tpl-desc", children: t.note ?? t.description }),
-                ]})}),
-                jsx("a", { className: "mm-a", href: t.docsUrl, target: "_blank", rel: "noreferrer", children: "文档 ↗" }),
-              ],
-            });
+          const info = t.kind === "info";
+          const server = attached[t.serverNameDefault || t.id];
+          const needsKey = (t.fields ?? []).some((f) => f.required);
+          const title = t.title || t.id;
+          const vendor = t.vendor || "";
+          const initial = (vendor || title || "?").trim().charAt(0).toUpperCase();
+          const top = jsxs("div", { className: "mm-app-top", children: [
+            jsx("span", {
+              className: "mm-app-avatar",
+              style: { background: avatarColor(vendor || t.id) },
+              children: initial,
+            }),
+            jsxs("span", { className: "mm-app-titles", children: [
+              jsx("div", { className: "mm-app-name", title, children: title }),
+              vendor ? jsx("div", { className: "mm-app-vendor", children: vendor }) : null,
+            ]}),
+          ]});
+          const desc = jsx("div", { className: "mm-app-desc", children: info ? (t.note ?? t.description) : t.description });
+          const transportPill =
+            jsx("span", { className: "mm-pill", children: TRANSPORT_LABEL[t.transport] ?? t.transport });
+
+          if (info) {
+            return jsxs("div", { className: "mm-app info", children: [
+              top,
+              desc,
+              jsxs("div", { className: "mm-app-foot", children: [
+                jsx("span", { className: "mm-pill dim", children: "仅说明" }),
+                jsx("a", { className: "mm-app-cta", href: t.docsUrl, target: "_blank", rel: "noreferrer", children: "文档 ↗" }),
+              ]}),
+            ] }, t.id);
           }
+
+          const statusPill = needsKey
+            ? jsx("span", { className: "mm-pill key", children: "需 Key" })
+            : jsx("span", { className: "mm-pill free", children: "免密钥" });
           return jsxs("button", {
-            key: t.id,
-            className: "mm-tpl-row",
-            onClick: () => onPick(t),
+            className: "mm-app" + (server ? " attached" : ""),
+            onClick: () => (server ? onOpenInstalled() : onPick(t)),
             children: [
-              jsx("span", { className: "mm-avatar", style: { background: avatarColor(t.vendor) }, children: t.vendor.charAt(0) }),
-              jsx("span", { className: "mm-tpl-main", children: jsxs(Fragment, { children: [
-                jsx("div", { className: "mm-tpl-name", children: `${t.vendor} · ${t.title}` }),
-                jsx("div", { className: "mm-tpl-desc", children: t.description }),
-              ]})}),
-              jsx("span", { className: `mm-badge ${t.transport === "stdio" ? "stdio" : "http"}`, children: TRANSPORT_LABEL[t.transport] }),
+              top,
+              desc,
+              jsxs("div", { className: "mm-app-foot", children: [
+                statusPill,
+                transportPill,
+                jsx("span", {
+                  className: "mm-app-cta",
+                  children: server ? "已接入 ✓" : "接入",
+                }),
+              ]}),
             ],
-          });
+          }, t.id);
         }),
       }),
     ],
