@@ -1,0 +1,5 @@
+# dsh-bridge-market bundle patch：安装后自动把插件实例插入 profile 的层栈，
+# 无需手工在 cordis.patch.yml 里追加注册行。
+- insert:
+    - id: bridge-market
+      name: dsh-bridge-market

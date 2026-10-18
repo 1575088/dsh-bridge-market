@@ -1,0 +1,67 @@
+{
+  "name": "dsh-bridge-market",
+  "version": "0.1.0",
+  "description": "桥接市场：按「网站 / APP」为单位陈列接入项，选中接入即把该应用的 MCP 桥写进当前 profile 的 cordis.patch.yml，loader 热加载后 agent 立刻多出这个应用的工具。改造自 Mrxieyong/dsh-mcp-market（MIT）。",
+  "type": "module",
+  "main": "dist/index.js",
+  "exports": {
+    ".": {
+      "default": "./dist/index.js"
+    },
+    "./client": {
+      "default": "./lib/client.js"
+    },
+    "./cordis.patch.yml": "./cordis.patch.yml",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "lib",
+    "src",
+    "cordis.patch.yml"
+  ],
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "inject": [
+        "@deepseek-ai/dsh-client-runtime",
+        "@deepseek-ai/dsh-client-locale",
+        "@deepseek-ai/dsh-client-ui-sidebar",
+        "@deepseek-ai/dsh-client-ui-conversation"
+      ]
+    }
+  },
+  "scripts": {
+    "build": "node build.mjs",
+    "test": "node --test tests/*.test.mjs"
+  },
+  "dependencies": {
+    "js-yaml": "^4.1.0"
+  },
+  "keywords": [
+    "dsh",
+    "dsh-plugin",
+    "dsh-bundle",
+    "deepseek-harness",
+    "bridge-market",
+    "app-market",
+    "mcp",
+    "mcp-market"
+  ],
+  "engines": {
+    "node": ">=22"
+  },
+  "license": "MIT",
+  "author": "1575088",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/1575088/dsh-bridge-market.git"
+  },
+  "homepage": "https://github.com/1575088/dsh-bridge-market#readme",
+  "bugs": {
+    "url": "https://github.com/1575088/dsh-bridge-market/issues"
+  }
+}
