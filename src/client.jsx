@@ -624,7 +624,7 @@ function McpMarketPanel({ onClose }) {
                     servers: managed,
                     onPick: (t) => {
                       setConfigure({
-                        title: (t.vendor ? t.vendor + " · " : "") + (t.title ?? t.id),
+                        title: (t.vendor && t.vendor !== t.title ? t.vendor + " · " : "") + (t.title ?? t.id),
                         prefill: templatePrefillJson(t),
                         backView: "market",
                       });
