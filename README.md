@@ -124,6 +124,7 @@ plugin_manager  action: install_bundle  target: <本目录的绝对路径>
 | 本机能力 | 文件系统（限定目录） | 目录路径 `*` |
 | 本机能力 | Docker 容器 | 不需要（Docker 要开着） |
 | 本机能力 | Memory 知识图谱 | 可不填（本地 JSON） |
+| 设计/图像 | ArtCraft · PhotoCraft | 填本机 `photocraft-cli.exe` 路径 |
 | 浏览器自动化 | Playwright | 不需要 |
 | 浏览器自动化 | Puppeteer | 不需要 |
 | 浏览器自动化 | Browser MCP（操控你自己的浏览器） | 需要先装浏览器扩展 |
@@ -133,7 +134,7 @@ plugin_manager  action: install_bundle  target: <本目录的绝对路径>
 
 **2 个说明卡**：Figma、蓝湖——只说明为什么接不上，不写假的接入按钮。
 
-**11 条上游模板**：Apifox、Apipost、MasterGo、Pixso、Chrome DevTools、Context7 等，和上面的目录混在一起显示，界面共 49 条（15 条免密钥，点开即用）。
+**11 条上游模板**：Apifox、Apipost、MasterGo、Pixso、Chrome DevTools、Context7 等，和上面的目录混在一起显示，界面共 50 条（15 条免密钥，点开即用）。
 
 ---
 

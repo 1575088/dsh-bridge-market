@@ -1059,6 +1059,29 @@ var EXTRA_CATALOG = [
       args: ["-y", "mcp-server-docker"]
     }
   },
+  {
+    id: "app-artcraft",
+    vendor: "ArtCraft / PhotoCraft",
+    title: "ArtCraft \xB7 PhotoCraft \u56FE\u50CF\u7F16\u8F91",
+    category: "\u8BBE\u8BA1/\u56FE\u50CF",
+    transport: "stdio",
+    kind: "config",
+    description: "\u63A5\u672C\u673A\u88C5\u597D\u7684 PhotoCraft\uFF08ArtCraft \u5BB6\u7684\u56FE\u50CF\u7F16\u8F91\u5668\uFF09\uFF0C\u5B9E\u6D4B 25 \u4E2A\u5DE5\u5177\uFF1A\u65B0\u5EFA/\u6253\u5F00/\u5BFC\u51FA\u6587\u6863\u3001\u8DD1 500+ \u6761\u7F16\u8F91\u547D\u4EE4\u3001\u6279\u91CF\u5904\u7406\u3001\u6E32\u67D3\u9884\u89C8\u56FE\u3002\u8D70\u5B83\u81EA\u5E26\u7684 MCP \u670D\u52A1\uFF0C\u4E0D\u9700\u8981\u5BC6\u94A5\u3002ArtCraft Launcher \u672C\u8EAB\u4E0D\u63D0\u4F9B MCP\uFF0C\u80FD\u63A5\u7684\u662F\u5B83\u88C5\u51FA\u6765\u7684 PhotoCraft\u3002",
+    fields: [
+      {
+        key: "cliPath",
+        label: "photocraft-cli.exe \u7684\u7EDD\u5BF9\u8DEF\u5F84",
+        placeholder: "D:\\PhotoCraft\\photocraft-cli.exe",
+        required: true
+      }
+    ],
+    serverNameDefault: "photocraft",
+    spec: {
+      transport: "stdio",
+      command: "{{cliPath}}",
+      args: ["mcp"]
+    }
+  },
   // ---------------- 浏览器 / 搜索 ----------------
   {
     id: "app-puppeteer",

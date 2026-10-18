@@ -309,6 +309,30 @@ export const EXTRA_CATALOG = [
       args: ["-y", "mcp-server-docker"],
     },
   },
+  {
+    id: "app-artcraft",
+    vendor: "ArtCraft / PhotoCraft",
+    title: "ArtCraft · PhotoCraft 图像编辑",
+    category: "设计/图像",
+    transport: "stdio",
+    kind: "config",
+    description:
+      "接本机装好的 PhotoCraft（ArtCraft 家的图像编辑器），实测 25 个工具：新建/打开/导出文档、跑 500+ 条编辑命令、批量处理、渲染预览图。走它自带的 MCP 服务，不需要密钥。ArtCraft Launcher 本身不提供 MCP，能接的是它装出来的 PhotoCraft。",
+    fields: [
+      {
+        key: "cliPath",
+        label: "photocraft-cli.exe 的绝对路径",
+        placeholder: "D:\\PhotoCraft\\photocraft-cli.exe",
+        required: true,
+      },
+    ],
+    serverNameDefault: "photocraft",
+    spec: {
+      transport: "stdio",
+      command: "{{cliPath}}",
+      args: ["mcp"],
+    },
+  },
 
   // ---------------- 浏览器 / 搜索 ----------------
   {
