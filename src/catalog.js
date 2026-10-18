@@ -242,7 +242,7 @@ export const APP_CATALOG = [
       "语义搜索与网页正文抓取，给 agent 补实时资料。官方托管端点，Key 作 Bearer，在 dashboard.exa.ai 取。",
     docsUrl: "https://github.com/exa-labs/exa-mcp-server",
     fields: [
-      { key: "token", label: "Exa API Key", type: "password", placeholder: "dashboard.exa.ai/api-keys", required: true },
+      { key: "token", label: "Exa API Key（可不填）", type: "password", placeholder: "dashboard.exa.ai/api-keys；不填也能用，只是限速", required: false },
     ],
     serverNameDefault: "exa",
     spec: {
@@ -358,6 +358,173 @@ export const APP_CATALOG = [
     note: "替代：用 Linear 生成的 API key 作 Bearer 头接社区实现；或等 mcp-client 支持 OAuth。",
     fields: [],
     serverNameDefault: "linear",
+  },
+
+  // ---------------- 零配置 / 免密钥远程端点 ----------------
+  // 下面每一条都用 POST initialize 实测过（见 docsUrl 对应的官方文档），不需要申请 key 就能接入。
+  {
+    id: "app-deepwiki",
+    vendor: "Devin / Cognition",
+    title: "DeepWiki（GitHub 仓库问答）",
+    category: "搜索/检索",
+    transport: "streamable-http",
+    kind: "config",
+    description:
+      "针对任意 GitHub 仓库提问、读它生成的结构化说明。官方远程端点无需凭据，点「接入」即可用，实测 initialize 返回 200。",
+    docsUrl: "https://docs.devin.ai/work-with-devin/deepwiki-mcp",
+    fields: [],
+    serverNameDefault: "deepwiki",
+    spec: {
+      transport: "streamable-http",
+      url: "https://mcp.deepwiki.com/mcp",
+      headers: {},
+    },
+  },
+  {
+    id: "app-cloudflare-docs",
+    vendor: "Cloudflare",
+    title: "Cloudflare 文档检索",
+    category: "搜索/检索",
+    transport: "streamable-http",
+    kind: "config",
+    description:
+      "检索 Cloudflare 官方开发者文档，给出准确的 API 与配置写法。公开只读，无需凭据，实测 initialize 返回 200。",
+    docsUrl: "https://developers.cloudflare.com/agents/model-context-protocol/cloudflare/servers-for-cloudflare/",
+    fields: [],
+    serverNameDefault: "cloudflare-docs",
+    spec: {
+      transport: "streamable-http",
+      url: "https://docs.mcp.cloudflare.com/mcp",
+      headers: {},
+    },
+  },
+  {
+    id: "app-huggingface",
+    vendor: "Hugging Face",
+    title: "Hugging Face",
+    category: "AI 平台",
+    transport: "streamable-http",
+    kind: "config",
+    description:
+      "搜模型、数据集与论文，读 Hub 资源。官方端点免登录就能用公开工具（实测 initialize 返回 200）；要私有资源才需要 OAuth 登录。",
+    docsUrl: "https://huggingface.co/docs/hub/en/hf-mcp-server",
+    fields: [],
+    serverNameDefault: "huggingface",
+    spec: {
+      transport: "streamable-http",
+      url: "https://huggingface.co/mcp",
+      headers: {},
+    },
+  },
+  {
+    id: "app-firecrawl",
+    vendor: "Firecrawl",
+    title: "Firecrawl",
+    category: "搜索/检索",
+    transport: "streamable-http",
+    kind: "config",
+    description:
+      "抓网页、爬站、搜索并转成 LLM 可用的正文。官方托管端点免 key 可试（实测 initialize 返回 200）；额度不够时在 url 后加 ?firecrawlApiKey=<key> 或改用 /v2/mcp-oauth。",
+    docsUrl: "https://docs.firecrawl.dev/mcp-server",
+    fields: [],
+    serverNameDefault: "firecrawl",
+    spec: {
+      transport: "streamable-http",
+      url: "https://mcp.firecrawl.dev/v2/mcp",
+      headers: {},
+    },
+  },
+  {
+    id: "app-tavily",
+    vendor: "Tavily",
+    title: "Tavily 搜索",
+    category: "搜索/检索",
+    transport: "streamable-http",
+    kind: "config",
+    description:
+      "面向 AI 的网页搜索、内容抽取与站点爬取。官方端点把 key 放在 query 的 tavilyApiKey 参数上，在 tavily.com 免费额度内即可用。",
+    docsUrl: "https://docs.tavily.com/documentation/mcp",
+    fields: [
+      { key: "key", label: "Tavily API Key", type: "password", placeholder: "app.tavily.com 注册后取 key", required: true },
+    ],
+    serverNameDefault: "tavily",
+    spec: {
+      transport: "streamable-http",
+      url: "https://mcp.tavily.com/mcp/?tavilyApiKey=<在此填入TavilyKey>",
+      headers: {},
+    },
+  },
+
+  // ---------------- 只支持 OAuth 的官方远程端点 ----------------
+  {
+    id: "app-sentry",
+    vendor: "Sentry",
+    title: "Sentry（暂不支持直连）",
+    category: "开发工具",
+    transport: "streamable-http",
+    kind: "info",
+    description:
+      "排查报错、事件与版本发布，部分功能还要 Seer 套餐。官方端点 https://mcp.sentry.dev/mcp 只走 OAuth，DSH 客户端不会自动弹授权。",
+    docsUrl: "https://mcp.sentry.dev/",
+    note: "替代：用 Sentry 内部集成 Token 走社区 stdio 实现，或等 mcp-client 支持 OAuth。",
+    fields: [],
+    serverNameDefault: "sentry",
+  },
+  {
+    id: "app-neon",
+    vendor: "Neon",
+    title: "Neon Postgres（暂不支持直连）",
+    category: "云服务/后端",
+    transport: "streamable-http",
+    kind: "info",
+    description:
+      "建库、开分支、跑 SQL。官方端点 https://mcp.neon.tech/mcp 走 OAuth 选项目，无法只用 Token 直连。",
+    docsUrl: "https://neon.com/docs/ai/neon-mcp-server",
+    note: "替代：本地用 neonctl 或 psql 管库，让 agent 走命令行；或等 mcp-client 支持 OAuth。",
+    fields: [],
+    serverNameDefault: "neon",
+  },
+  {
+    id: "app-vercel",
+    vendor: "Vercel",
+    title: "Vercel（暂不支持直连）",
+    category: "云服务/后端",
+    transport: "streamable-http",
+    kind: "info",
+    description:
+      "看项目、部署记录与构建日志。官方端点 https://mcp.vercel.com 走 OAuth，权限随所在团队。",
+    docsUrl: "https://vercel.com/docs/agent-resources/vercel-mcp",
+    note: "替代：用 Vercel REST API + Personal Access Token 自己包一层；或等 mcp-client 支持 OAuth。",
+    fields: [],
+    serverNameDefault: "vercel",
+  },
+  {
+    id: "app-paypal",
+    vendor: "PayPal",
+    title: "PayPal（暂不支持直连）",
+    category: "支付/金融",
+    transport: "streamable-http",
+    kind: "info",
+    description:
+      "建发票、管订单与支付。官方端点 https://mcp.paypal.com/mcp 走 OAuth 登录商家账户。",
+    docsUrl: "https://developer.paypal.com/ai-tools/mcp-server",
+    note: "替代：PayPal REST API + 应用凭据自己调；涉及资金的操作建议人工确认。",
+    fields: [],
+    serverNameDefault: "paypal",
+  },
+  {
+    id: "app-intercom",
+    vendor: "Intercom",
+    title: "Intercom（暂不支持直连）",
+    category: "协作/IM",
+    transport: "streamable-http",
+    kind: "info",
+    description:
+      "检索会话、联系人与帮助中心文章。官方端点 https://mcp.intercom.com/mcp 走 OAuth（scope: mcp operator）。",
+    docsUrl: "https://developers.intercom.com/docs/guides/mcp",
+    note: "替代：Intercom REST API + Access Token 自己包；或等 mcp-client 支持 OAuth。",
+    fields: [],
+    serverNameDefault: "intercom",
   },
 ];
 

@@ -25,11 +25,12 @@
 
 | 类型 | 数量 | 说明 |
 | --- | --- | --- |
-| 可一键接入（config） | 14 | 高德、腾讯地图、百度地图、飞书/Lark、钉钉、语雀、阿里云、Apifox、Apipost、MasterGo、Pixso、context7、Chrome DevTools、Pixso 本地 |
-| 说明卡（info） | 3 | 小红书、知乎、WPS——只有社区逆向或企业资质接口，接入前先给风险说明 |
+| 可一键接入（config） | 19 | 高德、腾讯地图、百度地图、飞书/Lark、钉钉、Slack、GitHub、Postman、Cloudflare、Stripe、Exa、Brave、ModelScope、Playwright、DeepWiki、Cloudflare 文档、Hugging Face、Firecrawl、Tavily、Apifox、Apipost、MasterGo、Pixso、context7、Chrome DevTools |
+| 免密钥即可用 | 5 | DeepWiki、Cloudflare 文档检索、Hugging Face、Firecrawl、Exa——点「接入」就有工具，不用申请 key |
+| 说明卡（info） | 8 | Notion、Supabase、Linear、Sentry、Neon、Vercel、PayPal、Intercom、Figma、蓝湖——官方只支持 OAuth 或有风险，先给说明 |
 | 继承自上游的模板 | 11 | 原 `dsh-mcp-market` 的服务模板，已并入本目录 |
 
-目录数据在 `src/catalog.js`（`APP_CATALOG`）与 `src/templates.js`（`TEMPLATES`），加一条就是加一个应用。
+免密钥条目都用 `POST initialize` 实测过（200 才收进目录）。目录数据在 `src/catalog.js`（`APP_CATALOG`）与 `src/templates.js`（`TEMPLATES`），加一条就是加一个应用。
 
 ## 工作原理
 

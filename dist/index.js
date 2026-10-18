@@ -508,7 +508,7 @@ var APP_CATALOG = [
     description: "\u8BED\u4E49\u641C\u7D22\u4E0E\u7F51\u9875\u6B63\u6587\u6293\u53D6\uFF0C\u7ED9 agent \u8865\u5B9E\u65F6\u8D44\u6599\u3002\u5B98\u65B9\u6258\u7BA1\u7AEF\u70B9\uFF0CKey \u4F5C Bearer\uFF0C\u5728 dashboard.exa.ai \u53D6\u3002",
     docsUrl: "https://github.com/exa-labs/exa-mcp-server",
     fields: [
-      { key: "token", label: "Exa API Key", type: "password", placeholder: "dashboard.exa.ai/api-keys", required: true }
+      { key: "token", label: "Exa API Key\uFF08\u53EF\u4E0D\u586B\uFF09", type: "password", placeholder: "dashboard.exa.ai/api-keys\uFF1B\u4E0D\u586B\u4E5F\u80FD\u7528\uFF0C\u53EA\u662F\u9650\u901F", required: false }
     ],
     serverNameDefault: "exa",
     spec: {
@@ -615,6 +615,161 @@ var APP_CATALOG = [
     note: "\u66FF\u4EE3\uFF1A\u7528 Linear \u751F\u6210\u7684 API key \u4F5C Bearer \u5934\u63A5\u793E\u533A\u5B9E\u73B0\uFF1B\u6216\u7B49 mcp-client \u652F\u6301 OAuth\u3002",
     fields: [],
     serverNameDefault: "linear"
+  },
+  // ---------------- 零配置 / 免密钥远程端点 ----------------
+  // 下面每一条都用 POST initialize 实测过（见 docsUrl 对应的官方文档），不需要申请 key 就能接入。
+  {
+    id: "app-deepwiki",
+    vendor: "Devin / Cognition",
+    title: "DeepWiki\uFF08GitHub \u4ED3\u5E93\u95EE\u7B54\uFF09",
+    category: "\u641C\u7D22/\u68C0\u7D22",
+    transport: "streamable-http",
+    kind: "config",
+    description: "\u9488\u5BF9\u4EFB\u610F GitHub \u4ED3\u5E93\u63D0\u95EE\u3001\u8BFB\u5B83\u751F\u6210\u7684\u7ED3\u6784\u5316\u8BF4\u660E\u3002\u5B98\u65B9\u8FDC\u7A0B\u7AEF\u70B9\u65E0\u9700\u51ED\u636E\uFF0C\u70B9\u300C\u63A5\u5165\u300D\u5373\u53EF\u7528\uFF0C\u5B9E\u6D4B initialize \u8FD4\u56DE 200\u3002",
+    docsUrl: "https://docs.devin.ai/work-with-devin/deepwiki-mcp",
+    fields: [],
+    serverNameDefault: "deepwiki",
+    spec: {
+      transport: "streamable-http",
+      url: "https://mcp.deepwiki.com/mcp",
+      headers: {}
+    }
+  },
+  {
+    id: "app-cloudflare-docs",
+    vendor: "Cloudflare",
+    title: "Cloudflare \u6587\u6863\u68C0\u7D22",
+    category: "\u641C\u7D22/\u68C0\u7D22",
+    transport: "streamable-http",
+    kind: "config",
+    description: "\u68C0\u7D22 Cloudflare \u5B98\u65B9\u5F00\u53D1\u8005\u6587\u6863\uFF0C\u7ED9\u51FA\u51C6\u786E\u7684 API \u4E0E\u914D\u7F6E\u5199\u6CD5\u3002\u516C\u5F00\u53EA\u8BFB\uFF0C\u65E0\u9700\u51ED\u636E\uFF0C\u5B9E\u6D4B initialize \u8FD4\u56DE 200\u3002",
+    docsUrl: "https://developers.cloudflare.com/agents/model-context-protocol/cloudflare/servers-for-cloudflare/",
+    fields: [],
+    serverNameDefault: "cloudflare-docs",
+    spec: {
+      transport: "streamable-http",
+      url: "https://docs.mcp.cloudflare.com/mcp",
+      headers: {}
+    }
+  },
+  {
+    id: "app-huggingface",
+    vendor: "Hugging Face",
+    title: "Hugging Face",
+    category: "AI \u5E73\u53F0",
+    transport: "streamable-http",
+    kind: "config",
+    description: "\u641C\u6A21\u578B\u3001\u6570\u636E\u96C6\u4E0E\u8BBA\u6587\uFF0C\u8BFB Hub \u8D44\u6E90\u3002\u5B98\u65B9\u7AEF\u70B9\u514D\u767B\u5F55\u5C31\u80FD\u7528\u516C\u5F00\u5DE5\u5177\uFF08\u5B9E\u6D4B initialize \u8FD4\u56DE 200\uFF09\uFF1B\u8981\u79C1\u6709\u8D44\u6E90\u624D\u9700\u8981 OAuth \u767B\u5F55\u3002",
+    docsUrl: "https://huggingface.co/docs/hub/en/hf-mcp-server",
+    fields: [],
+    serverNameDefault: "huggingface",
+    spec: {
+      transport: "streamable-http",
+      url: "https://huggingface.co/mcp",
+      headers: {}
+    }
+  },
+  {
+    id: "app-firecrawl",
+    vendor: "Firecrawl",
+    title: "Firecrawl",
+    category: "\u641C\u7D22/\u68C0\u7D22",
+    transport: "streamable-http",
+    kind: "config",
+    description: "\u6293\u7F51\u9875\u3001\u722C\u7AD9\u3001\u641C\u7D22\u5E76\u8F6C\u6210 LLM \u53EF\u7528\u7684\u6B63\u6587\u3002\u5B98\u65B9\u6258\u7BA1\u7AEF\u70B9\u514D key \u53EF\u8BD5\uFF08\u5B9E\u6D4B initialize \u8FD4\u56DE 200\uFF09\uFF1B\u989D\u5EA6\u4E0D\u591F\u65F6\u5728 url \u540E\u52A0 ?firecrawlApiKey=<key> \u6216\u6539\u7528 /v2/mcp-oauth\u3002",
+    docsUrl: "https://docs.firecrawl.dev/mcp-server",
+    fields: [],
+    serverNameDefault: "firecrawl",
+    spec: {
+      transport: "streamable-http",
+      url: "https://mcp.firecrawl.dev/v2/mcp",
+      headers: {}
+    }
+  },
+  {
+    id: "app-tavily",
+    vendor: "Tavily",
+    title: "Tavily \u641C\u7D22",
+    category: "\u641C\u7D22/\u68C0\u7D22",
+    transport: "streamable-http",
+    kind: "config",
+    description: "\u9762\u5411 AI \u7684\u7F51\u9875\u641C\u7D22\u3001\u5185\u5BB9\u62BD\u53D6\u4E0E\u7AD9\u70B9\u722C\u53D6\u3002\u5B98\u65B9\u7AEF\u70B9\u628A key \u653E\u5728 query \u7684 tavilyApiKey \u53C2\u6570\u4E0A\uFF0C\u5728 tavily.com \u514D\u8D39\u989D\u5EA6\u5185\u5373\u53EF\u7528\u3002",
+    docsUrl: "https://docs.tavily.com/documentation/mcp",
+    fields: [
+      { key: "key", label: "Tavily API Key", type: "password", placeholder: "app.tavily.com \u6CE8\u518C\u540E\u53D6 key", required: true }
+    ],
+    serverNameDefault: "tavily",
+    spec: {
+      transport: "streamable-http",
+      url: "https://mcp.tavily.com/mcp/?tavilyApiKey=<\u5728\u6B64\u586B\u5165TavilyKey>",
+      headers: {}
+    }
+  },
+  // ---------------- 只支持 OAuth 的官方远程端点 ----------------
+  {
+    id: "app-sentry",
+    vendor: "Sentry",
+    title: "Sentry\uFF08\u6682\u4E0D\u652F\u6301\u76F4\u8FDE\uFF09",
+    category: "\u5F00\u53D1\u5DE5\u5177",
+    transport: "streamable-http",
+    kind: "info",
+    description: "\u6392\u67E5\u62A5\u9519\u3001\u4E8B\u4EF6\u4E0E\u7248\u672C\u53D1\u5E03\uFF0C\u90E8\u5206\u529F\u80FD\u8FD8\u8981 Seer \u5957\u9910\u3002\u5B98\u65B9\u7AEF\u70B9 https://mcp.sentry.dev/mcp \u53EA\u8D70 OAuth\uFF0CDSH \u5BA2\u6237\u7AEF\u4E0D\u4F1A\u81EA\u52A8\u5F39\u6388\u6743\u3002",
+    docsUrl: "https://mcp.sentry.dev/",
+    note: "\u66FF\u4EE3\uFF1A\u7528 Sentry \u5185\u90E8\u96C6\u6210 Token \u8D70\u793E\u533A stdio \u5B9E\u73B0\uFF0C\u6216\u7B49 mcp-client \u652F\u6301 OAuth\u3002",
+    fields: [],
+    serverNameDefault: "sentry"
+  },
+  {
+    id: "app-neon",
+    vendor: "Neon",
+    title: "Neon Postgres\uFF08\u6682\u4E0D\u652F\u6301\u76F4\u8FDE\uFF09",
+    category: "\u4E91\u670D\u52A1/\u540E\u7AEF",
+    transport: "streamable-http",
+    kind: "info",
+    description: "\u5EFA\u5E93\u3001\u5F00\u5206\u652F\u3001\u8DD1 SQL\u3002\u5B98\u65B9\u7AEF\u70B9 https://mcp.neon.tech/mcp \u8D70 OAuth \u9009\u9879\u76EE\uFF0C\u65E0\u6CD5\u53EA\u7528 Token \u76F4\u8FDE\u3002",
+    docsUrl: "https://neon.com/docs/ai/neon-mcp-server",
+    note: "\u66FF\u4EE3\uFF1A\u672C\u5730\u7528 neonctl \u6216 psql \u7BA1\u5E93\uFF0C\u8BA9 agent \u8D70\u547D\u4EE4\u884C\uFF1B\u6216\u7B49 mcp-client \u652F\u6301 OAuth\u3002",
+    fields: [],
+    serverNameDefault: "neon"
+  },
+  {
+    id: "app-vercel",
+    vendor: "Vercel",
+    title: "Vercel\uFF08\u6682\u4E0D\u652F\u6301\u76F4\u8FDE\uFF09",
+    category: "\u4E91\u670D\u52A1/\u540E\u7AEF",
+    transport: "streamable-http",
+    kind: "info",
+    description: "\u770B\u9879\u76EE\u3001\u90E8\u7F72\u8BB0\u5F55\u4E0E\u6784\u5EFA\u65E5\u5FD7\u3002\u5B98\u65B9\u7AEF\u70B9 https://mcp.vercel.com \u8D70 OAuth\uFF0C\u6743\u9650\u968F\u6240\u5728\u56E2\u961F\u3002",
+    docsUrl: "https://vercel.com/docs/agent-resources/vercel-mcp",
+    note: "\u66FF\u4EE3\uFF1A\u7528 Vercel REST API + Personal Access Token \u81EA\u5DF1\u5305\u4E00\u5C42\uFF1B\u6216\u7B49 mcp-client \u652F\u6301 OAuth\u3002",
+    fields: [],
+    serverNameDefault: "vercel"
+  },
+  {
+    id: "app-paypal",
+    vendor: "PayPal",
+    title: "PayPal\uFF08\u6682\u4E0D\u652F\u6301\u76F4\u8FDE\uFF09",
+    category: "\u652F\u4ED8/\u91D1\u878D",
+    transport: "streamable-http",
+    kind: "info",
+    description: "\u5EFA\u53D1\u7968\u3001\u7BA1\u8BA2\u5355\u4E0E\u652F\u4ED8\u3002\u5B98\u65B9\u7AEF\u70B9 https://mcp.paypal.com/mcp \u8D70 OAuth \u767B\u5F55\u5546\u5BB6\u8D26\u6237\u3002",
+    docsUrl: "https://developer.paypal.com/ai-tools/mcp-server",
+    note: "\u66FF\u4EE3\uFF1APayPal REST API + \u5E94\u7528\u51ED\u636E\u81EA\u5DF1\u8C03\uFF1B\u6D89\u53CA\u8D44\u91D1\u7684\u64CD\u4F5C\u5EFA\u8BAE\u4EBA\u5DE5\u786E\u8BA4\u3002",
+    fields: [],
+    serverNameDefault: "paypal"
+  },
+  {
+    id: "app-intercom",
+    vendor: "Intercom",
+    title: "Intercom\uFF08\u6682\u4E0D\u652F\u6301\u76F4\u8FDE\uFF09",
+    category: "\u534F\u4F5C/IM",
+    transport: "streamable-http",
+    kind: "info",
+    description: "\u68C0\u7D22\u4F1A\u8BDD\u3001\u8054\u7CFB\u4EBA\u4E0E\u5E2E\u52A9\u4E2D\u5FC3\u6587\u7AE0\u3002\u5B98\u65B9\u7AEF\u70B9 https://mcp.intercom.com/mcp \u8D70 OAuth\uFF08scope: mcp operator\uFF09\u3002",
+    docsUrl: "https://developers.intercom.com/docs/guides/mcp",
+    note: "\u66FF\u4EE3\uFF1AIntercom REST API + Access Token \u81EA\u5DF1\u5305\uFF1B\u6216\u7B49 mcp-client \u652F\u6301 OAuth\u3002",
+    fields: [],
+    serverNameDefault: "intercom"
   }
 ];
 
