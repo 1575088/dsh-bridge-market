@@ -13,6 +13,15 @@ import { join, sep } from "node:path";
 import { homedir } from "node:os";
 import { TEMPLATES, templateById, fillSpec } from "./templates.js";
 import { APP_CATALOG } from "./catalog.js";
+import { EXTRA_CATALOG } from "./catalog-extra.js";
+
+// catalog.js 是初版目录，catalog-extra.js 是补充目录；同 id 时以后者为准。
+const APP_ENTRIES = (() => {
+  const byId = new Map();
+  for (const entry of APP_CATALOG) byId.set(entry.id, entry);
+  for (const entry of EXTRA_CATALOG) byId.set(entry.id, entry);
+  return [...byId.values()];
+})();
 
 export const name = "dsh-bridge-market";
 export const inject = ["webServer"];
@@ -454,7 +463,7 @@ async function readState() {
     profile: process.env.DSH_PROFILE ?? null,
     hotReload: true,
     servers,
-    templates: [...APP_CATALOG, ...TEMPLATES],
+    templates: [...APP_ENTRIES, ...TEMPLATES],
     toolCounts: counts,
     clientBoot: clientBootRecord(),
   };
@@ -669,7 +678,7 @@ function registerBridgeTool(ctx) {
     },
     async execute(args) {
       const action = String(args?.action ?? "list");
-      const all = [...APP_CATALOG, ...TEMPLATES];
+      const all = [...APP_ENTRIES, ...TEMPLATES];
 
       if (action === "list") {
         const q = String(args?.query ?? "").trim().toLowerCase();
@@ -687,7 +696,13 @@ function registerBridgeTool(ctx) {
         const lines = hits.map((t) => {
           const name = t.serverNameDefault || t.id;
           const state = attached.get(name);
-          const mark = state ? `已接入${state.enabled === false ? "(已停用)" : ""}` : t.kind === "info" ? "仅说明" : "可接入";
+          const mark = state
+            ? `已接入${state.enabled === false ? "(已停用)" : ""}`
+            : t.kind === "info"
+              ? "仅说明"
+              : t.kind === "guide"
+                ? "需教程接入"
+                : "可接入";
           const need = (t.fields || []).length > 0 ? ` 需填: ${t.fields.map((f) => f.key).join(",")}` : "";
           return `- ${t.id} | ${t.vendor || t.title} · ${t.title} | ${t.category || "-"} | ${t.transport || "-"} | ${mark}${need}`;
         });
@@ -707,6 +722,12 @@ function registerBridgeTool(ctx) {
         if (entry.kind === "info") {
           return `「${entry.title}」不能一键接入：${entry.description}${
             entry.docsUrl ? `\n文档：${entry.docsUrl}` : ""
+          }`;
+        }
+        if (entry.kind === "guide") {
+          const steps = (entry.steps || []).map((s, i) => `${i + 1}. ${s}`).join("\n");
+          return `「${entry.title}」要按步骤手动接，不能一键写入：${entry.description}\n\n${steps}${
+            entry.docsUrl ? `\n\n文档：${entry.docsUrl}` : ""
           }`;
         }
         const values = args?.config && typeof args.config === "object" ? args.config : {};

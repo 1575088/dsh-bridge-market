@@ -61,3 +61,25 @@ test("必填项缺失时拒绝接入并说明书怎么补", async () => {
   const text = await tool.execute({ action: "attach", app: "app-amap" });
   assert.match(text, /还缺必填项：key/);
 });
+
+test("追加目录覆盖旧条目：Notion 从「仅说明」变成可接入", async () => {
+  const text = await tool.execute({ action: "list", query: "Notion" });
+  assert.match(text, /app-notion/);
+  assert.match(text, /可接入/);
+  assert.doesNotMatch(text, /仅说明/);
+});
+
+test("教程类条目 attach 时返回分步教程而不是写入配置", async () => {
+  const text = await tool.execute({ action: "attach", app: "app-vercel" });
+  assert.match(text, /要按步骤手动接/);
+  assert.match(text, /1\. /);
+  const file = await readFile(join(home, "profiles", "web", "cordis.patch.yml"), "utf8");
+  assert.doesNotMatch(file, /serverName: vercel/);
+});
+
+test("免密钥条目直接接上：sequential-thinking", async () => {
+  const text = await tool.execute({ action: "attach", app: "app-sequential-thinking" });
+  assert.match(text, /已接入/);
+  const file = await readFile(join(home, "profiles", "web", "cordis.patch.yml"), "utf8");
+  assert.ok(file.includes("serverName: sequential-thinking"));
+});

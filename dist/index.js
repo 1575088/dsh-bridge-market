@@ -773,7 +773,435 @@ var APP_CATALOG = [
   }
 ];
 
+// src/catalog-extra.js
+var EXTRA_CATALOG = [
+  // ---------------- 知识库 / 文档 ----------------
+  {
+    id: "app-notion",
+    vendor: "Notion",
+    title: "Notion",
+    category: "\u77E5\u8BC6\u5E93/\u6587\u6863",
+    transport: "stdio",
+    kind: "config",
+    description: "\u8BFB\u5199\u5DE5\u4F5C\u533A\u9875\u9762\u3001\u6570\u636E\u5E93\u3001\u8BC4\u8BBA\u3002\u5B98\u65B9\u6258\u7BA1\u7AEF\u70B9\u53EA\u8BA4 OAuth\uFF0C\u8FD9\u6761\u8D70 Notion \u5B98\u65B9\u5F00\u6E90\u7684 npm \u5305\uFF0C\u7528 Integration Token\uFF08ntn_ \u5F00\u5934\uFF09\u76F4\u63A5\u63A5\u3002",
+    docsUrl: "https://github.com/makenotion/notion-mcp-server",
+    fields: [
+      {
+        key: "token",
+        label: "Notion Integration Token",
+        placeholder: "notion.so/my-integrations \u5EFA\u5185\u90E8\u96C6\u6210 \u2192 \u590D\u5236 ntn_\u2026 \uFF0C\u5E76\u628A\u76EE\u6807\u9875\u9762\u300C\u8FDE\u63A5\u300D\u7ED9\u8FD9\u4E2A\u96C6\u6210",
+        required: true
+      }
+    ],
+    serverNameDefault: "notion",
+    spec: {
+      transport: "stdio",
+      command: "npx",
+      args: ["-y", "@notionhq/notion-mcp-server"],
+      env: { NOTION_TOKEN: "{{token}}" }
+    }
+  },
+  // ---------------- 云服务 / 后端 ----------------
+  {
+    id: "app-neon",
+    vendor: "Neon",
+    title: "Neon Postgres",
+    category: "\u4E91\u670D\u52A1/\u540E\u7AEF",
+    transport: "stdio",
+    kind: "config",
+    description: "\u5EFA\u5E93\u3001\u5F00\u5206\u652F\u3001\u8DD1 SQL\u3001\u770B\u6162\u67E5\u8BE2\u3002\u5B98\u65B9 npm \u5305\u652F\u6301\u7528 Neon API Key \u8D77\u672C\u5730 stdio \u8FDB\u7A0B\uFF0C\u4E0D\u5FC5\u8D70 OAuth \u7AEF\u70B9\u3002",
+    docsUrl: "https://github.com/neondatabase/mcp-server-neon",
+    fields: [
+      {
+        key: "apiKey",
+        label: "Neon API Key",
+        placeholder: "console.neon.tech \u2192 Account settings \u2192 API keys",
+        required: true
+      }
+    ],
+    serverNameDefault: "neon",
+    spec: {
+      transport: "stdio",
+      command: "npx",
+      args: ["-y", "@neondatabase/mcp-server-neon", "start", "{{apiKey}}"]
+    }
+  },
+  {
+    id: "app-sentry",
+    vendor: "Sentry",
+    title: "Sentry",
+    category: "\u5F00\u53D1\u5DE5\u5177",
+    transport: "stdio",
+    kind: "config",
+    description: "\u67E5\u9519\u8BEF\u4E8B\u4EF6\u3001\u5B9A\u4F4D\u5806\u6808\u3001\u770B release \u4E0E issue\u3002\u5B98\u65B9 npm \u5305\u652F\u6301 --access-token\uFF0C\u81EA\u5EFA\u5B9E\u4F8B\u518D\u52A0 --host \u5373\u53EF\u3002",
+    docsUrl: "https://github.com/getsentry/sentry-mcp",
+    fields: [
+      {
+        key: "token",
+        label: "Sentry User Auth Token",
+        placeholder: "sentry.io \u2192 Settings \u2192 Auth Tokens\uFF0C\u52FE org:read / project:read / event:read",
+        required: true
+      }
+    ],
+    serverNameDefault: "sentry",
+    spec: {
+      transport: "stdio",
+      command: "npx",
+      args: ["-y", "@sentry/mcp-server@latest", "--access-token={{token}}"]
+    }
+  },
+  {
+    id: "app-paypal",
+    vendor: "PayPal",
+    title: "PayPal",
+    category: "\u652F\u4ED8/\u91D1\u878D",
+    transport: "stdio",
+    kind: "config",
+    description: "\u5EFA\u53D1\u7968\u3001\u67E5\u8BA2\u5355\u4E0E\u4EA4\u6613\u3001\u7BA1\u5546\u54C1\u76EE\u5F55\u3002\u5B98\u65B9 npm \u5305\u8BA4 PAYPAL_ACCESS_TOKEN\uFF0C\u9ED8\u8BA4\u8D70\u6C99\u7BB1\u73AF\u5883\u3002",
+    docsUrl: "https://github.com/paypal/agent-toolkit",
+    fields: [
+      {
+        key: "token",
+        label: "PayPal Access Token",
+        placeholder: "developer.paypal.com \u2192 Apps & Credentials \u2192 \u4F60\u7684 App \u2192 \u751F\u6210 Access Token",
+        required: true
+      },
+      {
+        key: "env",
+        label: "\u73AF\u5883\uFF08\u6C99\u7BB1\u586B sandbox\uFF0C\u6B63\u5F0F\u586B production\uFF09",
+        placeholder: "sandbox",
+        required: false
+      }
+    ],
+    serverNameDefault: "paypal",
+    spec: {
+      transport: "stdio",
+      command: "npx",
+      args: ["-y", "@paypal/mcp", "--tools=all"],
+      env: { PAYPAL_ACCESS_TOKEN: "{{token}}", PAYPAL_ENVIRONMENT: "{{env}}" }
+    }
+  },
+  {
+    id: "app-elasticsearch",
+    vendor: "Elasticsearch",
+    title: "Elasticsearch",
+    category: "\u6570\u636E\u5E93",
+    transport: "stdio",
+    kind: "config",
+    description: "\u81EA\u7136\u8BED\u8A00\u67E5\u7D22\u5F15\u3001\u770B\u5B57\u6BB5\u6620\u5C04\u4E0E\u805A\u5408\u7ED3\u679C\u3002\u5B98\u65B9 npm \u5305\u8981 ES_URL\uFF0C\u5E26\u9274\u6743\u7684\u96C6\u7FA4\u518D\u586B ES_API_KEY\u3002",
+    docsUrl: "https://github.com/elastic/mcp-server-elasticsearch",
+    fields: [
+      { key: "ES_URL", label: "Elasticsearch \u5730\u5740", placeholder: "http://localhost:9200", required: true },
+      { key: "ES_API_KEY", label: "API Key\uFF08\u6709\u9274\u6743\u624D\u586B\uFF09", placeholder: "\u53EF\u7559\u7A7A", required: false }
+    ],
+    serverNameDefault: "elasticsearch",
+    spec: {
+      transport: "stdio",
+      command: "npx",
+      args: ["-y", "@elastic/mcp-server-elasticsearch"],
+      env: { ES_URL: "{{ES_URL}}", ES_API_KEY: "{{ES_API_KEY}}" }
+    }
+  },
+  // ---------------- 数据库 ----------------
+  {
+    id: "app-postgres",
+    vendor: "PostgreSQL",
+    title: "PostgreSQL\uFF08\u672C\u5730/\u81EA\u5EFA\uFF09",
+    category: "\u6570\u636E\u5E93",
+    transport: "stdio",
+    kind: "config",
+    description: "\u53EA\u8BFB\u67E5\u8BE2\u5E93\u8868\u7ED3\u6784\u4E0E\u6570\u636E\uFF0C\u6240\u6709 SQL \u90FD\u8DD1\u5728 READ ONLY \u4E8B\u52A1\u91CC\u3002\u5B98\u65B9\u53C2\u8003\u5B9E\u73B0\uFF0C\u8FDE\u4E32\u76F4\u63A5\u5199\u8FDE\u63A5\u5B57\u7B26\u4E32\u3002",
+    docsUrl: "https://github.com/modelcontextprotocol/servers/tree/main/src/postgres",
+    fields: [
+      {
+        key: "url",
+        label: "\u8FDE\u63A5\u4E32",
+        placeholder: "postgresql://user:password@localhost:5432/mydb",
+        required: true
+      }
+    ],
+    serverNameDefault: "postgres",
+    spec: {
+      transport: "stdio",
+      command: "npx",
+      args: ["-y", "@modelcontextprotocol/server-postgres", "{{url}}"]
+    }
+  },
+  {
+    id: "app-mysql",
+    vendor: "MySQL",
+    title: "MySQL / MariaDB",
+    category: "\u6570\u636E\u5E93",
+    transport: "stdio",
+    kind: "config",
+    description: "\u67E5\u8868\u3001\u8DD1 SQL\u3001\u770B\u6267\u884C\u8BA1\u5212\u4E0E\u5E93\u8868\u6E05\u5355\u3002\u793E\u533A npm \u5305\u6309\u73AF\u5883\u53D8\u91CF\u8FDE\u5E93\uFF0C\u4E0D\u586B DB \u65F6\u8FDB\u5165\u591A\u5E93\u6A21\u5F0F\u3002",
+    docsUrl: "https://github.com/benborla/mcp-server-mysql",
+    fields: [
+      { key: "MYSQL_HOST", label: "\u4E3B\u673A", placeholder: "127.0.0.1", required: true },
+      { key: "MYSQL_PORT", label: "\u7AEF\u53E3", placeholder: "3306", required: false },
+      { key: "MYSQL_USER", label: "\u7528\u6237\u540D", placeholder: "root", required: true },
+      { key: "MYSQL_PASS", label: "\u5BC6\u7801", placeholder: "", required: true },
+      { key: "MYSQL_DB", label: "\u5E93\u540D\uFF08\u7559\u7A7A\uFF1D\u591A\u5E93\u6A21\u5F0F\uFF09", placeholder: "mydb", required: false }
+    ],
+    serverNameDefault: "mysql",
+    spec: {
+      transport: "stdio",
+      command: "npx",
+      args: ["-y", "mcp-server-mysql"],
+      env: {
+        MYSQL_HOST: "{{MYSQL_HOST}}",
+        MYSQL_PORT: "{{MYSQL_PORT}}",
+        MYSQL_USER: "{{MYSQL_USER}}",
+        MYSQL_PASS: "{{MYSQL_PASS}}",
+        MYSQL_DB: "{{MYSQL_DB}}"
+      }
+    }
+  },
+  // ---------------- 本机 / 运维 ----------------
+  {
+    id: "app-filesystem",
+    vendor: "\u672C\u673A\u6587\u4EF6\u7CFB\u7EDF",
+    title: "\u6587\u4EF6\u7CFB\u7EDF\uFF08\u9650\u5B9A\u76EE\u5F55\uFF09",
+    category: "\u672C\u673A\u80FD\u529B",
+    transport: "stdio",
+    kind: "config",
+    description: "\u8BFB\u3001\u5199\u3001\u641C\u3001\u6539\u6307\u5B9A\u76EE\u5F55\u4E0B\u7684\u6587\u4EF6\uFF0C\u8D8A\u754C\u4F1A\u88AB\u62D2\u3002\u7ED9 agent \u4E00\u4E2A\u5B89\u5168\u8FB9\u754C\u5185\u7684\u6587\u4EF6\u64CD\u4F5C\u901A\u9053\u3002",
+    docsUrl: "https://github.com/modelcontextprotocol/servers/tree/main/src/filesystem",
+    fields: [
+      {
+        key: "path",
+        label: "\u5141\u8BB8\u64CD\u4F5C\u7684\u76EE\u5F55\uFF08\u7EDD\u5BF9\u8DEF\u5F84\uFF09",
+        placeholder: "D:\\dsh-workspace",
+        required: true
+      }
+    ],
+    serverNameDefault: "filesystem",
+    spec: {
+      transport: "stdio",
+      command: "npx",
+      args: ["-y", "@modelcontextprotocol/server-filesystem", "{{path}}"]
+    }
+  },
+  {
+    id: "app-memory",
+    vendor: "\u77E5\u8BC6\u56FE\u8C31\u8BB0\u5FC6",
+    title: "Memory\uFF08\u77E5\u8BC6\u56FE\u8C31\uFF09",
+    category: "\u672C\u673A\u80FD\u529B",
+    transport: "stdio",
+    kind: "config",
+    description: "\u628A\u5B9E\u4F53\u548C\u5173\u7CFB\u5B58\u6210\u77E5\u8BC6\u56FE\u8C31\uFF0C\u8DE8\u4F1A\u8BDD\u8BB0\u4F4F\u300C\u8C01\u662F\u8C01\u3001\u505A\u8FC7\u4EC0\u4E48\u300D\u3002\u672C\u5730 JSON \u6587\u4EF6\u843D\u76D8\uFF0C\u4E0D\u4E0A\u4E91\u3002",
+    docsUrl: "https://github.com/modelcontextprotocol/servers/tree/main/src/memory",
+    fields: [
+      {
+        key: "file",
+        label: "\u8BB0\u5FC6\u6587\u4EF6\u8DEF\u5F84\uFF08\u7559\u7A7A\u7528\u9ED8\u8BA4\uFF09",
+        placeholder: "D:\\dsh-workspace\\memory.json",
+        required: false
+      }
+    ],
+    serverNameDefault: "memory",
+    spec: {
+      transport: "stdio",
+      command: "npx",
+      args: ["-y", "@modelcontextprotocol/server-memory"],
+      env: { MEMORY_FILE_PATH: "{{file}}" }
+    }
+  },
+  {
+    id: "app-sequential-thinking",
+    vendor: "\u5B98\u65B9\u53C2\u8003\u5B9E\u73B0",
+    title: "Sequential Thinking\uFF08\u7ED3\u6784\u5316\u63A8\u7406\uFF09",
+    category: "AI \u5E73\u53F0",
+    transport: "stdio",
+    kind: "config",
+    description: "\u7ED9\u6A21\u578B\u4E00\u4E2A\u53EF\u4FEE\u8BA2\u7684\u601D\u8003\u8349\u7A3F\u677F\uFF1A\u5206\u6B65\u63A8\u7406\u3001\u56DE\u9000\u3001\u5206\u652F\u3002\u514D\u5BC6\u94A5\uFF0C\u88C5\u4E0A\u5C31\u80FD\u7528\u3002",
+    docsUrl: "https://github.com/modelcontextprotocol/servers/tree/main/src/sequentialthinking",
+    fields: [],
+    serverNameDefault: "sequential-thinking",
+    spec: {
+      transport: "stdio",
+      command: "npx",
+      args: ["-y", "@modelcontextprotocol/server-sequential-thinking"]
+    }
+  },
+  {
+    id: "app-kubernetes",
+    vendor: "Kubernetes",
+    title: "Kubernetes \u96C6\u7FA4",
+    category: "\u4E91\u670D\u52A1/\u540E\u7AEF",
+    transport: "stdio",
+    kind: "config",
+    description: "\u770B Pod\u3001\u65E5\u5FD7\u3001\u4E8B\u4EF6\uFF0C\u6269\u7F29\u5BB9\u4E0E\u6EDA\u66F4\u3002\u8BFB\u7684\u662F\u672C\u673A kubeconfig \u5F53\u524D\u4E0A\u4E0B\u6587\uFF0C\u53EF\u5F00\u300C\u53EA\u5141\u8BB8\u975E\u7834\u574F\u6027\u64CD\u4F5C\u300D\u3002",
+    docsUrl: "https://github.com/Flux159/mcp-server-kubernetes",
+    fields: [],
+    serverNameDefault: "kubernetes",
+    spec: {
+      transport: "stdio",
+      command: "npx",
+      args: ["-y", "mcp-server-kubernetes"],
+      env: { ALLOW_ONLY_NON_DESTRUCTIVE_TOOLS: "true" }
+    }
+  },
+  {
+    id: "app-docker",
+    vendor: "Docker",
+    title: "Docker \u5BB9\u5668",
+    category: "\u672C\u673A\u80FD\u529B",
+    transport: "stdio",
+    kind: "config",
+    description: "\u5217\u5BB9\u5668\u3001\u770B\u65E5\u5FD7\u3001\u8D77\u505C\u4E0E\u6784\u5EFA\u955C\u50CF\u3002\u8FDE\u672C\u673A Docker\uFF0C\u9700\u8981 Docker Desktop / Engine \u5DF2\u8FD0\u884C\u3002",
+    docsUrl: "https://github.com/ckreiling/mcp-server-docker",
+    fields: [],
+    serverNameDefault: "docker",
+    spec: {
+      transport: "stdio",
+      command: "npx",
+      args: ["-y", "mcp-server-docker"]
+    }
+  },
+  // ---------------- 浏览器 / 搜索 ----------------
+  {
+    id: "app-puppeteer",
+    vendor: "Puppeteer",
+    title: "Puppeteer \u6D4F\u89C8\u5668\u81EA\u52A8\u5316",
+    category: "\u6D4F\u89C8\u5668\u81EA\u52A8\u5316",
+    transport: "stdio",
+    kind: "config",
+    description: "\u5F00\u6D4F\u89C8\u5668\u3001\u70B9\u9875\u9762\u3001\u622A\u56FE\u3001\u6293 DOM\u3001\u8DD1 JS\u3002\u514D\u5BC6\u94A5\uFF0C\u9996\u6B21\u8FD0\u884C\u4F1A\u4E0B\u8F7D Chromium\u3002",
+    docsUrl: "https://github.com/modelcontextprotocol/servers-archived/tree/main/src/puppeteer",
+    fields: [],
+    serverNameDefault: "puppeteer",
+    spec: {
+      transport: "stdio",
+      command: "npx",
+      args: ["-y", "@modelcontextprotocol/server-puppeteer"]
+    }
+  },
+  {
+    id: "app-browsermcp",
+    vendor: "Browser MCP",
+    title: "\u63A7\u5236\u4F60\u81EA\u5DF1\u7684\u6D4F\u89C8\u5668",
+    category: "\u6D4F\u89C8\u5668\u81EA\u52A8\u5316",
+    transport: "stdio",
+    kind: "config",
+    description: "\u64CD\u63A7\u4F60\u6B63\u5728\u7528\u7684 Chrome/Edge\uFF08\u4FDD\u7559\u767B\u5F55\u6001\uFF09\uFF0C\u800C\u4E0D\u662F\u53E6\u5F00\u4E00\u4E2A\u5E72\u51C0\u6D4F\u89C8\u5668\u3002\u9700\u5148\u5728\u6D4F\u89C8\u5668\u88C5\u5B98\u65B9\u6269\u5C55\u3002",
+    docsUrl: "https://github.com/browsermcp/mcp",
+    fields: [],
+    serverNameDefault: "browsermcp",
+    spec: {
+      transport: "stdio",
+      command: "npx",
+      args: ["-y", "@browsermcp/mcp"]
+    }
+  },
+  {
+    id: "app-google-maps",
+    vendor: "Google Maps",
+    title: "Google Maps",
+    category: "\u5730\u56FE/\u51FA\u884C",
+    transport: "stdio",
+    kind: "config",
+    description: "\u5730\u5740\u89E3\u6790\u3001\u5730\u70B9\u641C\u7D22\u3001\u8DEF\u7EBF\u4E0E\u8DDD\u79BB\u8BA1\u7B97\u3002\u5B98\u65B9\u53C2\u8003\u5B9E\u73B0\uFF0C\u8981 Google Cloud \u7684 Maps API Key\u3002",
+    docsUrl: "https://github.com/modelcontextprotocol/servers/tree/main/src/google-maps",
+    fields: [
+      {
+        key: "GOOGLE_MAPS_API_KEY",
+        label: "Google Maps API Key",
+        placeholder: "console.cloud.google.com \u5F00\u542F Geocoding / Places / Directions API \u540E\u521B\u5EFA",
+        required: true
+      }
+    ],
+    serverNameDefault: "google-maps",
+    spec: {
+      transport: "stdio",
+      command: "npx",
+      args: ["-y", "@modelcontextprotocol/server-google-maps"],
+      env: { GOOGLE_MAPS_API_KEY: "{{GOOGLE_MAPS_API_KEY}}" }
+    }
+  },
+  // ---------------- 只能看教程的（官方只走 OAuth） ----------------
+  {
+    id: "app-supabase",
+    vendor: "Supabase",
+    title: "Supabase\uFF08\u6559\u7A0B\uFF09",
+    category: "\u4E91\u670D\u52A1/\u540E\u7AEF",
+    transport: "stdio",
+    kind: "guide",
+    description: "\u7BA1\u9879\u76EE\u3001\u8DD1 SQL\u3001\u770B\u8868\u7ED3\u6784\u4E0E\u65E5\u5FD7\u3002\u5B98\u65B9\u6258\u7BA1\u7AEF\u70B9\u8981 OAuth\uFF0C\u4F46\u7528 Personal Access Token \u8DD1\u672C\u5730 stdio \u5305\u540C\u6837\u80FD\u7528\u3002",
+    docsUrl: "https://github.com/supabase-community/supabase-mcp",
+    fields: [],
+    serverNameDefault: "supabase",
+    steps: [
+      "\u53BB supabase.com/dashboard/account/tokens \u521B\u5EFA Personal Access Token\uFF08sbp_ \u5F00\u5934\uFF09\uFF0C\u590D\u5236\u4E0B\u6765\u3002",
+      "\u5728\u9762\u677F\u70B9\u53F3\u4E0A\u89D2\u300C\u624B\u52A8\u914D\u7F6E\u300D\uFF0C\u628A\u4E0B\u9762\u8FD9\u6BB5\u8D34\u8FDB\u53BB\uFF08token \u6362\u6210\u4F60\u81EA\u5DF1\u7684\uFF09\uFF1A",
+      '{"mcpServers":{"supabase":{"command":"npx","args":["-y","@supabase/mcp-server-supabase@latest","--access-token=\u4F60\u7684sbp_token"]}}}',
+      "\u70B9\u786E\u8BA4\uFF0C\u7B49 5\uFF5E10 \u79D2\uFF0C\u518D\u6253\u5F00\u300C\u5DF2\u63A5\u5165\u300D\u9875\u7B7E\u770B\u5230\u300C\u5DE5\u5177 N > 0\u300D\u5C31\u6210\u529F\u4E86\u3002",
+      "\u5982\u679C\u4F60\u7528\u7684\u662F\u672C\u5730 Supabase\uFF08supabase start\uFF09\uFF0C\u4E5F\u53EF\u4EE5\u4E0D\u8D70 token\uFF0C\u76F4\u63A5\u8FDE http://localhost:54321/mcp\uFF08\u672C\u5730\u7AEF\u70B9\u514D\u6388\u6743\uFF09\u3002"
+    ]
+  },
+  {
+    id: "app-linear",
+    vendor: "Linear",
+    title: "Linear\uFF08\u6559\u7A0B\uFF09",
+    category: "\u9879\u76EE\u7BA1\u7406",
+    transport: "streamable-http",
+    kind: "guide",
+    description: "\u67E5 issue\u3001\u6539\u72B6\u6001\u3001\u5199\u8BC4\u8BBA\u3002Linear \u5B98\u65B9\u8FDC\u7A0B MCP \u8D70 OAuth \u6388\u6743\uFF0C\u672C\u673A\u5BA2\u6237\u7AEF\u4E0D\u4F1A\u81EA\u52A8\u5F39\u6388\u6743\u9875\uFF0C\u6240\u4EE5\u8981\u8D70\u624B\u52A8\u8D34 Key \u7684\u8DEF\u7EBF\u3002",
+    docsUrl: "https://linear.app/docs/mcp",
+    fields: [],
+    serverNameDefault: "linear",
+    steps: [
+      "\u53BB linear.app/settings/api \u521B\u5EFA Personal API Key\uFF08lin_api_ \u5F00\u5934\uFF09\u3002",
+      "\u6CE8\u610F\uFF1A\u5B98\u65B9 MCP \u7AEF\u70B9\u4E0D\u63A5\u53D7\u8FD9\u79CD\u9759\u6001 Key\uFF0C\u9700\u8981\u5728\u672C\u673A\u8DD1\u4E00\u4E2A\u628A\u4F60 Key \u8F6C\u6210\u6807\u51C6 MCP \u670D\u52A1\u7684\u4E2D\u95F4\u5C42\uFF08\u4F8B\u5982 mcp-remote \u52A0 --header \u53C2\u6570\u8F6C\u53D1\uFF09\uFF0C\u6216\u8005\u7B49 DSH \u7684 mcp-client \u652F\u6301 OAuth\u3002",
+      "\u66FF\u4EE3\u505A\u6CD5\uFF1A\u76F4\u63A5\u8BA9\u6211\u7528 Linear GraphQL API \u5E72\u6D3B\u2014\u2014\u628A Key \u7ED9\u6211\uFF0C\u6211\u5199\u811A\u672C\u8C03 https://api.linear.app/graphql\uFF0C\u4E0D\u9700\u8981 MCP\u3002",
+      "\u4E0D\u60F3\u6298\u817E\u5C31\u7528\u300C\u624B\u52A8\u914D\u7F6E\u300D\u63A5\u522B\u7684\u8BB0\u5F55\u5DE5\u5177\uFF08\u6BD4\u5982\u628A\u4EFB\u52A1\u5199\u5230 Notion \u6570\u636E\u5E93\uFF09\u3002"
+    ]
+  },
+  {
+    id: "app-vercel",
+    vendor: "Vercel",
+    title: "Vercel\uFF08\u6559\u7A0B\uFF09",
+    category: "\u4E91\u670D\u52A1/\u540E\u7AEF",
+    transport: "streamable-http",
+    kind: "guide",
+    description: "\u770B\u90E8\u7F72\u3001\u67E5\u65E5\u5FD7\u3001\u56DE\u6EDA\u3001\u7BA1\u57DF\u540D\u3002\u5B98\u65B9\u8FDC\u7A0B MCP \u8981 OAuth\uFF0C\u672C\u673A\u8D70\u4E0D\u901A\uFF1B\u4F46 Vercel \u6709\u5B8C\u6574 REST API\u3002",
+    docsUrl: "https://vercel.com/docs/mcp",
+    fields: [],
+    serverNameDefault: "vercel",
+    steps: [
+      "\u53BB vercel.com/account/tokens \u521B\u5EFA Personal Access Token\u3002",
+      "\u5B98\u65B9 MCP \u7AEF\u70B9\uFF08https://mcp.vercel.com\uFF09\u53EA\u63A5\u53D7 OAuth\uFF0C\u9759\u6001 token \u76F4\u8FDE\u4F1A\u88AB\u62D2\u3002",
+      "\u53EF\u884C\u66FF\u4EE3\uFF1A\u628A token \u7ED9\u6211\uFF0C\u6211\u76F4\u63A5\u7528 Vercel REST API\uFF08https://api.vercel.com/v6/deployments \u7B49\uFF09\u5E2E\u4F60\u67E5\u90E8\u7F72\u3001\u62C9\u65E5\u5FD7\u3001\u89E6\u53D1\u56DE\u6EDA\u3002",
+      "\u5982\u679C\u8981\u56FA\u5B9A\u6210\u5DE5\u5177\uFF0C\u53EF\u5728\u9762\u677F\u300C\u624B\u52A8\u914D\u7F6E\u300D\u91CC\u63A5\u4E00\u4E2A\u901A\u7528 OpenAPI \u8F6C MCP \u7684\u672C\u5730\u670D\u52A1\uFF0C\u628A\u5B83\u6307\u5411 Vercel API\u3002"
+    ]
+  },
+  {
+    id: "app-intercom",
+    vendor: "Intercom",
+    title: "Intercom\uFF08\u6559\u7A0B\uFF09",
+    category: "\u9879\u76EE\u7BA1\u7406",
+    transport: "streamable-http",
+    kind: "guide",
+    description: "\u67E5\u5BA2\u6237\u4F1A\u8BDD\u3001\u8054\u7CFB\u65B9\u5F0F\u4E0E\u5DE5\u5355\u3002\u5B98\u65B9\u8FDC\u7A0B MCP \u8D70 OAuth\uFF0C\u672C\u673A\u9700\u8981\u6539\u6210 Access Token \u7684\u65B9\u5F0F\u3002",
+    docsUrl: "https://developers.intercom.com/docs/guides/mcp",
+    fields: [],
+    serverNameDefault: "intercom",
+    steps: [
+      "\u53BB developers.intercom.com \u2192 Your apps \u2192 Authentication \u521B\u5EFA Access Token\u3002",
+      "\u5B98\u65B9 MCP \u7AEF\u70B9\u53EA\u8BA4 OAuth \u6388\u6743\u9875\uFF0C\u9759\u6001 token \u65E0\u6CD5\u76F4\u8FDE\u3002",
+      "\u53EF\u884C\u66FF\u4EE3\uFF1A\u628A token \u7ED9\u6211\uFF0C\u6211\u76F4\u63A5\u8C03 Intercom REST API\uFF08https://api.intercom.io\uFF09\u67E5\u4F1A\u8BDD\u3001\u5BA2\u6237\u4E0E\u6807\u7B7E\u3002",
+      "\u6CE8\u610F\uFF1A\u6D89\u53CA\u7ED9\u771F\u5B9E\u5BA2\u6237\u53D1\u6D88\u606F\u7684\u64CD\u4F5C\uFF0C\u6211\u4F1A\u5148\u95EE\u4F60\u518D\u505A\u3002"
+    ]
+  }
+];
+
 // src/host.js
+var APP_ENTRIES = (() => {
+  const byId = /* @__PURE__ */ new Map();
+  for (const entry of APP_CATALOG) byId.set(entry.id, entry);
+  for (const entry of EXTRA_CATALOG) byId.set(entry.id, entry);
+  return [...byId.values()];
+})();
 var name = "dsh-bridge-market";
 var inject = ["webServer"];
 var MCP_CLIENT = "@deepseek-ai/dsh-mcp-client";
@@ -1117,7 +1545,7 @@ async function readState() {
     profile: process.env.DSH_PROFILE ?? null,
     hotReload: true,
     servers,
-    templates: [...APP_CATALOG, ...TEMPLATES],
+    templates: [...APP_ENTRIES, ...TEMPLATES],
     toolCounts: counts,
     clientBoot: clientBootRecord()
   };
@@ -1303,7 +1731,7 @@ function registerBridgeTool(ctx) {
     },
     async execute(args) {
       const action = String(args?.action ?? "list");
-      const all = [...APP_CATALOG, ...TEMPLATES];
+      const all = [...APP_ENTRIES, ...TEMPLATES];
       if (action === "list") {
         const q = String(args?.query ?? "").trim().toLowerCase();
         const st = await readState();
@@ -1318,7 +1746,7 @@ function registerBridgeTool(ctx) {
         const lines = hits.map((t) => {
           const name2 = t.serverNameDefault || t.id;
           const state = attached.get(name2);
-          const mark = state ? `\u5DF2\u63A5\u5165${state.enabled === false ? "(\u5DF2\u505C\u7528)" : ""}` : t.kind === "info" ? "\u4EC5\u8BF4\u660E" : "\u53EF\u63A5\u5165";
+          const mark = state ? `\u5DF2\u63A5\u5165${state.enabled === false ? "(\u5DF2\u505C\u7528)" : ""}` : t.kind === "info" ? "\u4EC5\u8BF4\u660E" : t.kind === "guide" ? "\u9700\u6559\u7A0B\u63A5\u5165" : "\u53EF\u63A5\u5165";
           const need = (t.fields || []).length > 0 ? ` \u9700\u586B: ${t.fields.map((f) => f.key).join(",")}` : "";
           return `- ${t.id} | ${t.vendor || t.title} \xB7 ${t.title} | ${t.category || "-"} | ${t.transport || "-"} | ${mark}${need}`;
         });
@@ -1334,6 +1762,14 @@ ${lines.join("\n")}`;
         if (!entry) return `\u76EE\u5F55\u91CC\u6CA1\u6709\u300C${args?.app}\u300D\u3002\u5148\u7528 action=list \u770B\u53EF\u7528 id\u3002`;
         if (entry.kind === "info") {
           return `\u300C${entry.title}\u300D\u4E0D\u80FD\u4E00\u952E\u63A5\u5165\uFF1A${entry.description}${entry.docsUrl ? `
+\u6587\u6863\uFF1A${entry.docsUrl}` : ""}`;
+        }
+        if (entry.kind === "guide") {
+          const steps = (entry.steps || []).map((s, i) => `${i + 1}. ${s}`).join("\n");
+          return `\u300C${entry.title}\u300D\u8981\u6309\u6B65\u9AA4\u624B\u52A8\u63A5\uFF0C\u4E0D\u80FD\u4E00\u952E\u5199\u5165\uFF1A${entry.description}
+
+${steps}${entry.docsUrl ? `
+
 \u6587\u6863\uFF1A${entry.docsUrl}` : ""}`;
         }
         const values = args?.config && typeof args.config === "object" ? args.config : {};

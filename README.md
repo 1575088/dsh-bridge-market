@@ -25,7 +25,7 @@
 2. **点一下就接入**——写入配置、热加载、工具就位，不用重启 DSH。
 3. **接入结果可验证**——每张卡显示「工具 N」，数的是 agent 工具表里真实出现的 `mcp__<应用>__*`，不是猜的。
 4. **筛选和搜索**——按分类过滤，另有「免密钥」和「已接入」两个快捷筛选。
-5. **三种条目说清楚**——标「免密钥」（直接能用）、「需 Key」（要申请）、「仅说明」（官方只支持 OAuth，当前接不上，列出来但不假装能用）。
+5. **四种条目说清楚**——标「免密钥」（直接能用）、「需 Key」（要申请）、「需教程」（官方只走 OAuth，点进去看分步接入）、「仅说明」（当前真接不上，不假装能用）。
 6. **agent 自己也能装**——注册了 `bridge_market` 工具，一句「帮我接上高德，key 是 xxx」就能完成。
 
 ---
@@ -64,6 +64,12 @@ plugin_manager  action: install_bundle  target: <本目录的绝对路径>
 
 ![已接入](docs/screenshots/installed.png)
 
+**接不上的那种，给教程**
+
+官方只走 OAuth 的应用（Supabase、Linear、Vercel、Intercom）接不了静态 key，所以卡片上标「需教程」，点进去是照抄就能用的分步说明：
+
+![教程页](docs/screenshots/guide.png)
+
 ---
 
 ## 先拿这 9 个练手（都不用申请 key）
@@ -84,20 +90,25 @@ plugin_manager  action: install_bundle  target: <本目录的绝对路径>
 
 ## 目录里有什么
 
-**19 个一键接入**（`*` = 必填 key）：
+**一键接入（点「接入」写配置，刷新就能调）**（`*` = 必填 key）：
 
 | 分类 | 应用 | 需要的 key |
 | --- | --- | --- |
 | 地图/出行 | 高德地图 | `key*` |
 | 地图/出行 | 腾讯地图 | `key*` |
 | 地图/出行 | 百度地图 | `BAIDU_MAP_API_KEY*` |
+| 地图/出行 | Google Maps | `GOOGLE_MAPS_API_KEY*` |
 | 协作/IM | 飞书 / Lark | `appId*`、`appSecret*` |
 | 协作/IM | 钉钉 | `DINGTALK_Client_ID*`、`DINGTALK_Client_Secret*` |
 | 协作/IM | Slack | `SLACK_MCP_XOXP_TOKEN*` |
+| 知识库/文档 | Notion | `token*`（Integration Token） |
 | 代码托管 | GitHub | `token*` |
 | API 工具 | Postman | `token*` |
 | 云服务/后端 | Cloudflare | `token*` |
+| 云服务/后端 | Neon Postgres | `apiKey*` |
+| 云服务/后端 | Kubernetes | 读本机 kubeconfig，免填 |
 | 支付/金融 | Stripe | `token*` |
+| 支付/金融 | PayPal | `token*`（可留 `env`，默认沙箱） |
 | 搜索/检索 | Exa 搜索 | 可不填 |
 | 搜索/检索 | Brave 搜索 | `BRAVE_API_KEY*` |
 | 搜索/检索 | DeepWiki | 不需要 |
@@ -106,11 +117,23 @@ plugin_manager  action: install_bundle  target: <本目录的绝对路径>
 | 搜索/检索 | Tavily 搜索 | `key*` |
 | AI 平台 | 魔搭 ModelScope | `MODELSCOPE_API_TOKEN*` |
 | AI 平台 | Hugging Face | 不需要（登录后更全） |
+| AI 平台 | Sequential Thinking | 不需要 |
+| 数据库 | PostgreSQL | 连接串 `*` |
+| 数据库 | MySQL / MariaDB | 主机、用户、密码 `*` |
+| 数据库 | Elasticsearch | `ES_URL*`、`ES_API_KEY` |
+| 本机能力 | 文件系统（限定目录） | 目录路径 `*` |
+| 本机能力 | Docker 容器 | 不需要（Docker 要开着） |
+| 本机能力 | Memory 知识图谱 | 可不填（本地 JSON） |
 | 浏览器自动化 | Playwright | 不需要 |
+| 浏览器自动化 | Puppeteer | 不需要 |
+| 浏览器自动化 | Browser MCP（操控你自己的浏览器） | 需要先装浏览器扩展 |
+| 开发工具 | Sentry | `token*`（自建加 `--host`） |
 
-**8 个说明卡**：Notion、Supabase、Linear、Sentry、Neon、Vercel、PayPal、Intercom。这些官方只提供 OAuth 网页授权，而 DSH 的 MCP 客户端走 HTTP + 静态 header，接不上。列出来的目的是告诉你「有，但当前接不了」。
+**4 个教程条目**：Supabase、Linear、Vercel、Intercom。官方只给 OAuth 网页授权，本机连不上，所以不假装能一键接——点卡片进去是分步教程，照抄就能用；Supabase 那条还附了可直接粘进「手动配置」的 JSON。
 
-**11 条上游模板**：Apifox、Apipost、MasterGo、Pixso、Chrome DevTools、Context7 等，和上面的目录混在一起显示，界面共 38 条。
+**2 个说明卡**：Figma、蓝湖——只说明为什么接不上，不写假的接入按钮。
+
+**11 条上游模板**：Apifox、Apipost、MasterGo、Pixso、Chrome DevTools、Context7 等，和上面的目录混在一起显示，界面共 49 条（15 条免密钥，点开即用）。
 
 ---
 

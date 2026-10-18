@@ -185,6 +185,24 @@ const STYLE = `
 .mm-inst-tools .n{font-size:14px;font-weight:700;line-height:1.1}
 .mm-inst-tools .t{font-size:9.5px;opacity:.85;line-height:1.2}
 .mm-empty-cta{display:flex;flex-direction:column;align-items:center;gap:10px;padding:44px 12px}
+.mm-app.guide{border-style:solid;border-color:#dbe4ff}
+.mm-app.guide .mm-app-cta{color:#4263eb}
+.mm-guide{display:flex;flex-direction:column;gap:10px}
+.mm-guide-head{display:flex;align-items:center;gap:10px}
+.mm-back{cursor:pointer;border:1px solid var(--dsw-alias-line,#e7e8ea);background:transparent;border-radius:8px;
+  padding:4px 10px;font-size:12px;color:var(--dsw-alias-label-secondary,#8a8f9c);font-family:inherit}
+.mm-back:hover{color:var(--dsw-alias-label-primary,#1c1e26);border-color:var(--dsw-alias-brand,#4c6ef5)}
+.mm-guide-title{margin:0;font-size:15px;font-weight:650;color:var(--dsw-alias-label-primary,#1c1e26)}
+.mm-guide-desc{margin:0;font-size:12.5px;line-height:1.6;color:var(--dsw-alias-label-secondary,#8a8f9c)}
+.mm-guide-steps{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:9px}
+.mm-guide-steps>li{font-size:12.5px;line-height:1.6;color:var(--dsw-alias-label-primary,#1c1e26)}
+.mm-snippet{position:relative;margin-top:6px;border:1px solid var(--dsw-alias-line,#e7e8ea);border-radius:9px;
+  background:var(--dsw-alias-bg-sunken,#f6f7f9)}
+.mm-snippet pre{margin:0;padding:10px 12px 10px 12px;padding-right:64px;font-size:11.5px;line-height:1.5;white-space:pre-wrap;word-break:break-all;
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+.mm-btn.mm-copy{position:absolute;top:6px;right:6px;font-size:11px;padding:3px 9px}
+.mm-guide-foot{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:4px}
+.mm-guide-foot .mm-app-cta{margin-left:0}
 .mm-app,.mm-inst,.mm-tab,.mm-chip{font-family:inherit;line-height:inherit}
 .mm-app:focus-visible,.mm-inst:focus-visible,.mm-chip:focus-visible,.mm-tab:focus-visible{outline:2px solid var(--dsw-alias-brand,#4c6ef5);outline-offset:2px}
 `;
@@ -426,8 +444,9 @@ function stripComments(text) {
 function McpMarketPanel({ onClose }) {
   const [state, setState] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [view, setView] = useState("market"); // market | installed | configure
+  const [view, setView] = useState("market"); // market | installed | configure | guide
   const [configure, setConfigure] = useState(null); // { title, prefill } | null
+  const [guide, setGuide] = useState(null); // 教程条目 | null
   const [expanded, setExpanded] = useState({});
   const [busyName, setBusyName] = useState("");
   const [toast, setToast] = useState(null);
@@ -600,7 +619,9 @@ function McpMarketPanel({ onClose }) {
                   },
                   onConfirm: confirmConfigure,
                 })
-              : view === "installed"
+              : view === "guide"
+                ? jsx(GuidePane, { entry: guide, onBack: () => setView("market"), onClose })
+                : view === "installed"
                 ? jsx(ServerListPane, {
                     managed,
                     external,
@@ -623,6 +644,11 @@ function McpMarketPanel({ onClose }) {
                     templates: state?.templates ?? [],
                     servers: managed,
                     onPick: (t) => {
+                      if (t.kind === "guide") {
+                        setGuide(t);
+                        setView("guide");
+                        return;
+                      }
                       setConfigure({
                         title: (t.vendor && t.vendor !== t.title ? t.vendor + " · " : "") + (t.title ?? t.id),
                         prefill: templatePrefillJson(t),
@@ -773,7 +799,7 @@ function MarketPane({ templates, servers, onPick, onOpenInstalled }) {
 
   const list = useMemo(() => {
     const key = q.trim().toLowerCase();
-    const isFree = (t) => t.kind !== "info" && !(t.fields ?? []).some((f) => f.required);
+    const isFree = (t) => (t.kind ?? "config") === "config" && !(t.fields ?? []).some((f) => f.required);
     return templates.filter((t) => {
       if (cat === "免密钥") {
         if (!isFree(t)) return false;
@@ -792,7 +818,7 @@ function MarketPane({ templates, servers, onPick, onOpenInstalled }) {
     });
   }, [templates, q, cat, attached]);
 
-  const free = list.filter((t) => t.kind !== "info" && !(t.fields ?? []).some((f) => f.required)).length;
+  const free = list.filter((t) => (t.kind ?? "config") === "config" && !(t.fields ?? []).some((f) => f.required)).length;
   const attachedCount = list.filter((t) => attached[t.serverNameDefault || t.id]).length;
 
   return jsxs("div", {
@@ -820,7 +846,7 @@ function MarketPane({ templates, servers, onPick, onOpenInstalled }) {
               className: "mm-chip " + (cat === c ? "active" : "") + (c === "免密钥" || c === "已接入" ? " smart" : ""),
               onClick: () => setCat(c),
               children: c === "免密钥"
-                ? "免密钥 " + templates.filter((t) => t.kind !== "info" && !(t.fields ?? []).some((f) => f.required)).length
+                ? "免密钥 " + templates.filter((t) => (t.kind ?? "config") === "config" && !(t.fields ?? []).some((f) => f.required)).length
                 : c === "已接入"
                   ? "已接入 " + templates.filter((t) => attached[t.serverNameDefault || t.id]).length
                   : c,
@@ -867,6 +893,22 @@ function MarketPane({ templates, servers, onPick, onOpenInstalled }) {
             ] }, t.id);
           }
 
+          if (t.kind === "guide") {
+            return jsxs("button", {
+              className: "mm-app guide",
+              onClick: () => onPick(t),
+              children: [
+                top,
+                desc,
+                jsxs("div", { className: "mm-app-foot", children: [
+                  jsx("span", { className: "mm-pill dim", children: "需教程" }),
+                  transportPill,
+                  jsx("span", { className: "mm-app-cta", children: "看教程 →" }),
+                ]}),
+              ],
+            }, t.id);
+          }
+
           const statusPill = needsKey
             ? jsx("span", { className: "mm-pill key", children: "需 Key" })
             : jsx("span", { className: "mm-pill free", children: "免密钥" });
@@ -890,6 +932,54 @@ function MarketPane({ templates, servers, onPick, onOpenInstalled }) {
       }),
     ],
   });
+}
+
+// ---------------------------------------------------------------------------
+// 教程页（官方只走 OAuth 的应用，给出照抄就能用的步骤）
+// ---------------------------------------------------------------------------
+
+function GuidePane({ entry, onBack }) {
+  const [copied, setCopied] = useState("");
+  if (!entry) return jsx("div", { className: "mm-empty", children: "没有可显示的教程。" });
+
+  async function copy(text) {
+    try {
+      await navigator.clipboard.writeText(text);
+      setCopied("已复制");
+      setTimeout(() => setCopied(""), 1500);
+    } catch {
+      setCopied("复制失败，请手动选中");
+      setTimeout(() => setCopied(""), 2000);
+    }
+  }
+
+  const steps = entry.steps ?? [];
+  return jsxs("div", { className: "mm-guide", children: [
+    jsxs("div", { className: "mm-guide-head", children: [
+      jsx("button", { className: "mm-back", onClick: onBack, children: "← 返回" }),
+      jsx("span", { className: "mm-pill dim", children: "需手动接" }),
+    ]}),
+    jsx("h3", { className: "mm-guide-title", children: (entry.vendor ? entry.vendor + " · " : "") + (entry.title || entry.id) }),
+    jsx("p", { className: "mm-guide-desc", children: entry.description }),
+    jsx("ol", { className: "mm-guide-steps", children: steps.map((s, i) => {
+      const isSnippet = typeof s === "string" && s.trim().startsWith("{");
+      return jsx("li", { children: isSnippet
+        ? jsxs(Fragment, { children: [
+            jsx("div", { children: "把下面这段贴进「手动配置」：" }),
+            jsxs("div", { className: "mm-snippet", children: [
+              jsx("pre", { children: s }),
+              jsx("button", { className: "mm-btn mm-copy", onClick: () => copy(s), children: copied || "复制" }),
+            ]}),
+          ]})
+        : s }, i);
+    })}),
+    jsxs("div", { className: "mm-guide-foot", children: [
+      entry.docsUrl
+        ? jsx("a", { className: "mm-app-cta", href: entry.docsUrl, target: "_blank", rel: "noreferrer", children: "官方文档 ↗" })
+        : null,
+      jsx("span", { className: "mm-help", style: { margin: 0 }, children: "看不懂哪一步就问 agent：让它照着这份教程帮你配。" }),
+    ]}),
+  ]});
 }
 
 // ---------------------------------------------------------------------------
